@@ -33,13 +33,13 @@
 			 if ($station!="") {
 				$req="SELECT *
 				FROM velib 
-				WHERE name= $station
+				WHERE number= $station
 				ORDER BY name";
 				$db->query($req);
 				while ($db->fetch_assoc()) {
 					$lat=$db->row['latitude'] ;
 					$long=$db->row['longitude'] ;
-					$info = $db->row['address'] ;
+					#$info = $db->row['address'] ;
 				}
 				#$lat= 48.867091635218 ; 
 				#$long= 2.3417479951579;
@@ -51,7 +51,7 @@
 			 var markers = [];
 		   	 var latitude = '<?php echo $lat; ?>' ;
 		   	 var longtitude = '<?php echo $long; ?>' ;
-			 var address = '<?php echo $info; ?>' 
+			 //var address = '<?php echo $info; ?>' 
 		   	 var position2=new google.maps.LatLng(latitude, longtitude) ; // position du point indiqué
 			 
 			 function initialize() {
@@ -85,14 +85,14 @@
   					while ($db->fetch_assoc()) { // placer tous les points situés dans la zone
   						$lat =$db->row['latitude'] ;
   						$long=$db->row['longitude'] ;
-						$info =$db->row['address'] ;
-						$info = "test";
+						#$info =$db->row['name'] ;
 						echo "var position = new google.maps.LatLng(".$lat.",".$long.");" ;
 						echo "addMarker(position);" ;  
   					}
   				}
-				else echo "addMarker_info(position2,address);";  // si non, placer seulement le point indiqué
-  				$db->close();
+				#else echo "addMarker_info(position2,address);";  // si non, placer seulement le point indiqué
+  				else echo "addMarker(position2);";
+				$db->close();
 			   	?>
 			   //
 			 }
@@ -106,11 +106,11 @@
 			   markers.push(marker);
 			 }
 			 
-			 function addMarker_info(location, address) {
+			 function addMarker_info(location, info) {
 			   var marker = new google.maps.Marker({
 			     position: location,
 			     map: map,
-				 title : address
+				 title : info
 			   });
 			   markers.push(marker);
 			 }
@@ -218,12 +218,13 @@
 						
 						?>
 					</select>
-				</div>
-				<!-- </form>	
-  			<form id="nom_station" class="navbar-form navbar-left" role="select" method="GET" onchange="submit();return" >-->
+				<!-- </div>
+				</form>	
+  			<form id="nom_station" class="navbar-form navbar-left" role="select" method="GET" onchange="submit();return" >
   		  	  Station
-				<div class="form-group">
-  		    		<select type ="text" name="id" class="form-control" onclick="submit();return false">
+				<div class="form-group">-->
+					Station
+  		    		<select name="id" class="form-control" onclick="submit();return false">
 						<option VALUE=0>Toutes les stations</option>
 						<?php
 						require_once("db.class.php");
@@ -243,15 +244,18 @@
 							ORDER BY name";	
 						$db->query($req);
 						while ($db->fetch_assoc()) {
-							if ($db->row['name']!=$nom){
-								echo '<option VALUE ='.$db->row['name'].'>'.$db->row['name'].'</option>'; }
+							if (substr($db->row['name'],0,5)!=$nom){
+								echo '<option VALUE ='.substr($db->row['name'],0,5).'>'.$db->row['name'].'</option>'; }
 							else {
-								echo '<option selected ="selected" VALUE='.$db->row['name'].'>'.$db->row['name'] .'</option>';}
+								echo '<option selected VALUE='.substr($db->row['name'],0,5).'>'.$db->row['name'] .'</option>';}
 						}
 						}
+						$db->close();
 						?>
 					</select>
 				</div>
+					
+				
   			</form>
 			</p>
 			<br>
