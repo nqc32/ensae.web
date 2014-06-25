@@ -51,7 +51,7 @@
 			 var markers = [];
 		   	 var latitude = '<?php echo $lat; ?>' ;
 		   	 var longtitude = '<?php echo $long; ?>' ;
-			 var address = '<?php echo $info; ?>' 
+			 //var address = '<?php echo $info; ?>' 
 		   	 var position2=new google.maps.LatLng(latitude, longtitude) ; // position du point indiqué
 			 
 			 function initialize() {
@@ -90,8 +90,8 @@
 						echo "addMarker(position);" ;  
   					}
   				}
-				else echo "addMarker_info(position2,address);";  // si non, placer seulement le point indiqué
-  				#else echo "addMarker(position2);";
+				#else echo "addMarker_info(position2,address);";  // si non, placer seulement le point indiqué
+  				else echo "addMarker(position2);";
 				$db->close();
 			   	?>
 			   //

@@ -101,8 +101,8 @@
             <ul class="nav navbar-nav">
 			 <?php
 			 require_once("settings.php");
-              echo '<li ><a href=velib.php>'.$page1.'</a></li>' ;
-              echo '<li class="active"><a href=voir_carte.php>'.$page2.'</a></li>';
+              echo '<li class="active"><a href=velib.php>'.$page1.'</a></li>' ;
+              echo '<li ><a href=voir_carte.php>'.$page2.'</a></li>';
               echo '<li><a href="#">'.$page3.'</a></li>';
 			 ?>
               <li class="dropdown">
@@ -175,7 +175,7 @@
 				echo "<tr>";
 				echo "<td>".substr($db->row['name'],8)."</td>";
 				echo "<td>".$db->row['address']."</td>";
-				echo "<td><a href=\"voir_carte.php?id=".$db->row['name']."\">Voir sur la carte</a></td>";
+				echo "<td><a href=\"voir_carte.php?codep=".$filtre."&id=".substr($db->row['name'],0,5)."\">Voir sur la carte</a></td>";
 				#echo "<td>".$db->row['latitude']."</td>";
 				#echo "<td>".$db->row['longitude']."</td>";
 				echo "</tr>";
