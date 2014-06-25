@@ -170,7 +170,7 @@
 				echo "<tr>";
 				echo "<td>".substr($db->row['name'],8)."</td>";
 				echo "<td>".$db->row['address']."</td>";
-				echo "<td><a href=\"voir_carte.php?id=".substr($db->row['name'],0,5)."\">Voir sur la carte</a></td>";
+				echo "<td><a href=\"voir_carte.php?id=".$db->row['number']."\">Voir sur la carte</a></td>";
 				#echo "<td>".$db->row['latitude']."</td>";
 				#echo "<td>".$db->row['longitude']."</td>";
 				echo "</tr>";
@@ -182,8 +182,8 @@
           </div>
           <a class="btn btn-lg btn-primary" href="../../components/#navbar" role="button">View navbar docs &raquo;</a>
         </p>
-		<!--<div id="basicMap"></div>-->
-		  <div id="map-canvas"/>
+		<!--<div id="basicMap"></div>
+		  <div id="map-canvas"/>-->
 
     </div> <!-- /container -->
 

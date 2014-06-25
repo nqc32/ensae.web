@@ -157,11 +157,15 @@
         <div class="jumbotron">
           <h1>Voir sur la carte</h1>
   		<!-- Début Formulaire -->
-  			<form id="code_postal" class="navbar-form navbar-left" role="select" method="POST" onchange="change()">
+  			<form id="code_postal" class="navbar-form navbar-left" role="select" method="POST" >
   		  	  Sélectionner le code postal 
 				<div class="form-group">
   		    		<select type="number" name="code_postal" class="form-control" onchange="submit();return false;">
 						<?php
+						#if(isset($_POST['code_postal'])) $remplie="";
+						#else $remplie=$_POST['code_postal'];
+						
+						#if ($remplie=""){
 						require_once("db.class.php");
 						$db = new DB();
 						$req="SELECT distinct cp
@@ -171,12 +175,13 @@
 						while ($db->fetch_assoc()) {
 							echo '<option VALUE ='.$db->row['cp'].'>'.$db->row['cp'].'</option>'; }
 						$db->close();
+						#}
 						?>
 					</select>
 				</div>
   			</form>	
   			<form id="nom_station" class="navbar-form navbar-left" role="select" method="POST" >
-  		  	  Nouveau Formulaire
+  		  	  Station
 				<div class="form-group">
   		    		<select name="name" class="form-control" >
 						<option VALUE=0></option>
@@ -209,8 +214,8 @@
 		
 			<div id="map-canvas"/>
 			<script>
-		 	var myLatlng2 = new google.maps.LatLng(48.8, 2.3417479951579);
-		 	addMarker(myLatlng2);
+		 	//var myLatlng2 = new google.maps.LatLng(48.8, 2.3417479951579);
+		 	//addMarker(myLatlng2);
 			</script> 
   		<!-- Fin Formulaire -->
 <!-- 	
