@@ -27,23 +27,40 @@
 		     </script>	   
 			   
 		     <script type="text/javascript">
+				 	var map;
+			 		var markers = [];
 		         function initialize() {
 					 var myLatlng = new google.maps.LatLng(48.857091635218, 2.3417479951579);
+					 var myLatlng2 = new google.maps.LatLng(48.8, 2.3417479951579);
 		           var mapOptions = {
 		             center: myLatlng,
 		             zoom: 18,
 					 
 		           };
+				   
+				   
 		           var map = new google.maps.Map(document.getElementById("map-canvas"),
 		               mapOptions);
 					var marker = new google.maps.Marker({
 					         position: myLatlng,
 					         map: map,
-					         title: 'Paris'
+					         title: 'Paris',
 					     });
+					function addMarker(location) {
+						   var marker = new google.maps.Marker({
+						     position: location,
+						     map: map
+						   });
+						   markers.push(marker);
+					};
+						 
 					   
 		         }
+				 
+				 	 addMarker(myLatlng2) ; 
+					 
 		         google.maps.event.addDomListener(window, 'load', initialize);
+
 		     </script>
 			
   </head>
@@ -139,9 +156,15 @@
 					</select>
 				</div>
   			</form>
-			</p><br>
-			<div id="map-canvas"/>
+			</p>
+			<br>
 		</div>
+		
+			<div id="map-canvas"/>
+			<script>
+		 	var myLatlng2 = new google.maps.LatLng(48.8, 2.3417479951579);
+		 	addMarker(myLatlng2);
+			</script> 
   		<!-- Fin Formulaire -->
 <!-- 	
 
