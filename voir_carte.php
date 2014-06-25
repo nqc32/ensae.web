@@ -25,41 +25,88 @@
 			 <script type="text/javascript"
 		         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB4NInl2ygUk82FWxXwjUFQ9LFX9RR0V9o">
 		     </script>	   
-			   
+			 <?php
+			 require_once("db.class.php");
+	 		if(isset($_GET['id'])) $station=$_GET['id'];
+	 		else $station="";
+			$db = new DB();
+			if ($station!="") {
+				$req="SELECT *
+				FROM velib 
+				WHERE number= $station
+				ORDER BY name";
+				$db->query($req);
+				while ($db->fetch_assoc()) {
+					$lat=$db->row['latitude'] ;
+					$long=$db->row['longitude'] ;
+				}
+				#$lat= 48.867091635218 ; 
+				#$long= 2.3417479951579;
+			}
+			$db->close();	
+			 ?>
 		     <script type="text/javascript">
-				 	var map;
-			 		var markers = [];
-		         function initialize() {
-					 var myLatlng = new google.maps.LatLng(48.857091635218, 2.3417479951579);
-					 var myLatlng2 = new google.maps.LatLng(48.8, 2.3417479951579);
-		           var mapOptions = {
-		             center: myLatlng,
-		             zoom: 18,
-					 
-		           };
-				   
-				   
-		           var map = new google.maps.Map(document.getElementById("map-canvas"),
-		               mapOptions);
-					var marker = new google.maps.Marker({
-					         position: myLatlng,
-					         map: map,
-					         title: 'Paris',
-					     });
-					function addMarker(location) {
-						   var marker = new google.maps.Marker({
-						     position: location,
-						     map: map
-						   });
-						   markers.push(marker);
-					};
-						 
-					   
-		         }
-				 
-				 	 addMarker(myLatlng2) ; 
-					 
-		         google.maps.event.addDomListener(window, 'load', initialize);
+			 var map;
+			 var markers = [];
+
+			 function initialize() {
+			   var haightAshbury = new google.maps.LatLng(48.857091635218, 2.3417479951579);
+			   var mapOptions = {
+			     zoom: 12,
+			     center: haightAshbury,
+			     //mapTypeId: google.maps.MapTypeId.TERRAIN
+			   };
+			   map = new google.maps.Map(document.getElementById('map-canvas'),
+			       mapOptions);
+
+			   // This event listener will call addMarker() when the map is clicked.
+			   //google.maps.event.addListener(map, 'click', function(event) {
+			     //addMarker(event.latLng);
+			   //});
+
+			   // Adds a marker at the center of the map.
+			   //addMarker(haightAshbury);
+			   
+			   
+			   var latitude = '<?php echo $lat; ?>' ;
+			   var longtitude = '<?php echo $long; ?>' ;
+			   var position2=new google.maps.LatLng(latitude, longtitude) ;
+			   addMarker(position2);
+			 }
+
+			 // Add a marker to the map and push to the array.
+			 function addMarker(location) {
+			   var marker = new google.maps.Marker({
+			     position: location,
+			     map: map
+			   });
+			   markers.push(marker);
+			 }
+
+			 // Sets the map on all markers in the array.
+			 function setAllMap(map) {
+			   for (var i = 0; i < markers.length; i++) {
+			     markers[i].setMap(map);
+			   }
+			 }
+
+			 // Removes the markers from the map, but keeps them in the array.
+			 function clearMarkers() {
+			   setAllMap(null);
+			 }
+
+			 // Shows any markers currently in the array.
+			 function showMarkers() {
+			   setAllMap(map);
+			 }
+
+			 // Deletes all markers in the array by removing references to them.
+			 function deleteMarkers() {
+			   clearMarkers();
+			   markers = [];
+			 }
+
+			 google.maps.event.addDomListener(window, 'load', initialize);
 
 		     </script>
 			
