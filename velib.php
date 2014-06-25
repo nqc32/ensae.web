@@ -142,7 +142,7 @@
 		if(isset($_POST['code'])) $filtre=$_POST['code'];
 		else $filtre="";
 		
-		$db = new DB(localhost,"root","cuong","cuong");
+		$db = new DB();
 		if ($filtre!="") {
 			echo '<table class="table table-striped .table-condensed ">';
 			echo "<thead>" ;

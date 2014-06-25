@@ -93,7 +93,7 @@
   		    		<select type="number" name="code_postal" class="form-control" onchange="submit();return false;">
 						<?php
 						require_once("db.class.php");
-						$db = new DB(localhost,"root","cuong","cuong");
+						$db = new DB();
 						$req="SELECT distinct cp
 								FROM velib 
 								ORDER BY cp";
@@ -117,7 +117,7 @@
 						
 						else $filtre="";						
 						
-						$db = new DB(localhost,"root","cuong","cuong");
+						$db = new DB();
 						
 						$req="SELECT name
 							FROM velib 

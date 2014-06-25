@@ -6,12 +6,12 @@ class DB {
 	var $query;
 	var $debug;
 	
-	function DB($host,$user,$pass,$database,$debug=FALSE) {
+	function DB($debug=FALSE) {
 		$this->debug=$debug;
-		$this->host = $host;
-		$this->db=$database;
-		$this->user = $user;
-		$this->pass = $pass;
+		$this->host = localhost;
+		$this->db=cuong;
+		$this->user = root;
+		$this->pass = cuong;
 		$this->link = mysql_connect($this->host, $this->user, $this->pass);
 		mysql_select_db($this->db);
 	}
