@@ -27,30 +27,32 @@
 		     </script>	   
 			 <?php
 			 require_once("db.class.php");
-	 		if(isset($_GET['id'])) $station=$_GET['id'];
-	 		else $station="";
-			$db = new DB();
-			if ($station!="") {
+	 		 if(isset($_GET['id'])) $station=substr($_GET['id'],0,5);
+	 		 else $station="";
+			 $db = new DB();
+			 if ($station!="") {
 				$req="SELECT *
 				FROM velib 
-				WHERE number= $station
+				WHERE name= $station
 				ORDER BY name";
 				$db->query($req);
 				while ($db->fetch_assoc()) {
 					$lat=$db->row['latitude'] ;
 					$long=$db->row['longitude'] ;
+					$info = $db->row['address'] ;
 				}
 				#$lat= 48.867091635218 ; 
 				#$long= 2.3417479951579;
-			}
-			$db->close();	
+			 }
+			 $db->close();	
 			 ?>
 		     <script type="text/javascript">
 			 var map;
 			 var markers = [];
 		   	 var latitude = '<?php echo $lat; ?>' ;
 		   	 var longtitude = '<?php echo $long; ?>' ;
-		   	 var position2=new google.maps.LatLng(latitude, longtitude) ;
+			 var address = '<?php echo $info; ?>' 
+		   	 var position2=new google.maps.LatLng(latitude, longtitude) ; // position du point indiqué
 			 
 			 function initialize() {
 			   var paris = new google.maps.LatLng(48.857091635218, 2.3417479951579);
@@ -71,25 +73,28 @@
 			   //addMarker(haightAshbury);
 			   <?php
   			 	require_once("db.class.php");
-  	 			if(isset($_GET['codep'])) $codepostal=$_GET['codep'];
+  	 			if(isset($_GET['codep']) and ($_GET['id']==0)) $codepostal=$_GET['codep'];
   	 			else $codepostal="";
   				$db = new DB();
-  				if ($codepostal!="") {
+  				if ($codepostal!="") { //si le code postal est passé en argument
   					$req="SELECT *
   						FROM velib 
   						WHERE cp= $codepostal
   						ORDER BY name";
   					$db->query($req);
-  					while ($db->fetch_assoc()) {
-  						$lat=$db->row['latitude'] ;
+  					while ($db->fetch_assoc()) { // placer tous les points situés dans la zone
+  						$lat =$db->row['latitude'] ;
   						$long=$db->row['longitude'] ;
+						$info =$db->row['address'] ;
+						$info = "test";
 						echo "var position = new google.maps.LatLng(".$lat.",".$long.");" ;
-						echo "addMarker(position);" ; 
+						echo "addMarker(position);" ;  
   					}
   				}
+				else echo "addMarker_info(position2,address);";  // si non, placer seulement le point indiqué
   				$db->close();
 			   	?>
-			   //addMarker(position2);
+			   //
 			 }
 
 			 // Add a marker to the map and push to the array.
@@ -97,6 +102,15 @@
 			   var marker = new google.maps.Marker({
 			     position: location,
 			     map: map
+			   });
+			   markers.push(marker);
+			 }
+			 
+			 function addMarker_info(location, address) {
+			   var marker = new google.maps.Marker({
+			     position: location,
+			     map: map,
+				 title : address
 			   });
 			   markers.push(marker);
 			 }
@@ -175,15 +189,18 @@
         <div class="jumbotron">
           <h1>Voir sur la carte</h1>
   		<!-- Début Formulaire -->
-  			<form id="code_postal" class="navbar-form navbar-left" role="select" method="POST" >
+  			<form id="code_postal" class="navbar-form navbar-left" role="select" method="GET" >
   		  	  Sélectionner le code postal 
 				<div class="form-group">
-  		    		<select type="number" name="code_postal" class="form-control" onchange="submit();return false;">
+  		    		<select type="number" name="codep" class="form-control" onchange="submit();return false;">
+						<option VALUE=0></option>
 						<?php
-						#if(isset($_POST['code_postal'])) $remplie="";
-						#else $remplie=$_POST['code_postal'];
+						if(isset($_GET['codep'])) $remplie=$_GET['codep'] ;
+						else $remplie="";
 						
-						#if ($remplie=""){
+						#if ($remplie!=""){
+						#	echo '<option selected="selected">'.$remplie.'</option>';
+						#}
 						require_once("db.class.php");
 						$db = new DB();
 						$req="SELECT distinct cp
@@ -191,35 +208,45 @@
 								ORDER BY cp";
 						$db->query($req);
 						while ($db->fetch_assoc()) {
-							echo '<option VALUE ='.$db->row['cp'].'>'.$db->row['cp'].'</option>'; }
+							if ($db->row['cp']!=$remplie){
+								 echo '<option VALUE ='.$db->row['cp'].'>'.$db->row['cp'].'</option>';}
+							else {
+								echo '<option selected ="selected VALUE="'.$db->row['cp'] .'>'.$db->row['cp'] .'</option>';}
+							}
+							#}
 						$db->close();
-						#}
+						
 						?>
 					</select>
 				</div>
-  			</form>	
-  			<form id="nom_station" class="navbar-form navbar-left" role="select" method="POST" >
+				<!-- </form>	
+  			<form id="nom_station" class="navbar-form navbar-left" role="select" method="GET" onchange="submit();return" >-->
   		  	  Station
 				<div class="form-group">
-  		    		<select name="name" class="form-control" >
-						<option VALUE=0></option>
+  		    		<select type ="text" name="id" class="form-control" onclick="submit();return false">
+						<option VALUE=0>Toutes les stations</option>
 						<?php
 						require_once("db.class.php");
 						
-						if(isset($_POST['code_postal'])) $filtre=$_POST['code_postal'];
-						
+						if(isset($_GET['codep'])) $filtre=$_GET['codep'];
 						else $filtre="";						
+							
+						if(isset($_GET['id'])) $nom=$_GET['id'];
+						else $nom="";	
+						
 						
 						$db = new DB();
-						
+						if ($filtre!=""){
 						$req="SELECT name
 							FROM velib 
 							WHERE cp = $filtre
-							ORDER BY name";
-						if ($filtre!=""){		
+							ORDER BY name";	
 						$db->query($req);
 						while ($db->fetch_assoc()) {
-							echo '<option>'.$db->row['name'].'</option>'; 
+							if ($db->row['name']!=$nom){
+								echo '<option VALUE ='.$db->row['name'].'>'.$db->row['name'].'</option>'; }
+							else {
+								echo '<option selected ="selected" VALUE='.$db->row['name'].'>'.$db->row['name'] .'</option>';}
 						}
 						}
 						?>

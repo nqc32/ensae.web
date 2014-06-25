@@ -155,8 +155,6 @@
 			echo " <tr>" ;
 			echo " <th>Nom de station</th>" ;
 			echo " <th>Adresse</th>" ;
-			#echo " <th>Lattitude</th>" ;
-			#echo " <th>Longitude</th>" ;
 			echo "<th><a href=\"voir_carte.php?codep=".$filtre."\">Tout Afficher</a></td>";
 			echo " </tr>" ;
 			echo " </thead>";
@@ -171,7 +169,7 @@
 				echo "<tr>";
 				echo "<td>".substr($db->row['name'],8)."</td>";
 				echo "<td>".$db->row['address']."</td>";
-				echo "<td><a href=\"voir_carte.php?id=".$db->row['number']."\">Voir sur la carte</a></td>";
+				echo "<td><a href=\"voir_carte.php?id=".$db->row['name']."\">Voir sur la carte</a></td>";
 				#echo "<td>".$db->row['latitude']."</td>";
 				#echo "<td>".$db->row['longitude']."</td>";
 				echo "</tr>";
