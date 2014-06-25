@@ -92,13 +92,19 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Project name</a>
+			<?php
+			require_once("settings.php");
+			echo '<a class="navbar-brand" href="velib.php">'.$project_name.'</a>' ;
+			?>
           </div>
           <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-              <li class="active"><a href="#">Velib par Code Postal</a></li>
-              <li><a href=voir_carte.php>Voir sur la Carte</a></li>
-              <li><a href="#">Link</a></li>
+			 <?php
+			 require_once("settings.php");
+              echo '<li ><a href=velib.php>'.$page1.'</a></li>' ;
+              echo '<li class="active"><a href=voir_carte.php>'.$page2.'</a></li>';
+              echo '<li><a href="#">'.$page3.'</a></li>';
+			 ?>
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
                 <ul class="dropdown-menu">

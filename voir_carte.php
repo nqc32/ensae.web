@@ -39,7 +39,7 @@
 				while ($db->fetch_assoc()) {
 					$lat=$db->row['latitude'] ;
 					$long=$db->row['longitude'] ;
-					#$info = $db->row['address'] ;
+					$info = $db->row['address'] ;
 				}
 				#$lat= 48.867091635218 ; 
 				#$long= 2.3417479951579;
@@ -51,7 +51,7 @@
 			 var markers = [];
 		   	 var latitude = '<?php echo $lat; ?>' ;
 		   	 var longtitude = '<?php echo $long; ?>' ;
-			 //var address = '<?php echo $info; ?>' 
+			 var address = '<?php echo $info; ?>' 
 		   	 var position2=new google.maps.LatLng(latitude, longtitude) ; // position du point indiqué
 			 
 			 function initialize() {
@@ -90,8 +90,8 @@
 						echo "addMarker(position);" ;  
   					}
   				}
-				#else echo "addMarker_info(position2,address);";  // si non, placer seulement le point indiqué
-  				else echo "addMarker(position2);";
+				else echo "addMarker_info(position2,address);";  // si non, placer seulement le point indiqué
+  				#else echo "addMarker(position2);";
 				$db->close();
 			   	?>
 			   //
@@ -156,14 +156,22 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              <a class="navbar-brand" href="#">Project name</a>
+ 			<?php
+ 			require_once("settings.php");
+ 			echo '<a class="navbar-brand" href="velib.php">'.$project_name.'</a>' ;
+ 			?>
             </div>
             <div class="navbar-collapse collapse">
               <ul class="nav navbar-nav">
-                <li ><a href=velib.php>Velib par Code Postal</a></li>
-                <li class="active"><a href=voir_carte.php>Voir sur la Carte</a></li>
-                <li><a href="#">Link</a></li>
-                <li class="dropdown">
+				 <?php
+				 require_once("settings.php");
+                 echo '<li ><a href=velib.php>'.$page1.'</a></li>' ;
+                 echo '<li class="active"><a href=voir_carte.php>'.$page2.'</a></li>';
+                 echo '<li><a href="#">'.$page3.'</a></li>';
+				 ?> 
+             
+                
+				<li class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
                   <ul class="dropdown-menu">
                     <li><a href="#">Action</a></li>
