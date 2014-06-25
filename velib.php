@@ -157,6 +157,7 @@
 			echo " <th>Adresse</th>" ;
 			#echo " <th>Lattitude</th>" ;
 			#echo " <th>Longitude</th>" ;
+			echo "<th><a href=\"voir_carte.php?codep=".$filtre."\">Tout Afficher</a></td>";
 			echo " </tr>" ;
 			echo " </thead>";
 			echo " <tbody>" ;

@@ -48,12 +48,15 @@
 		     <script type="text/javascript">
 			 var map;
 			 var markers = [];
-
+		   	 var latitude = '<?php echo $lat; ?>' ;
+		   	 var longtitude = '<?php echo $long; ?>' ;
+		   	 var position2=new google.maps.LatLng(latitude, longtitude) ;
+			 
 			 function initialize() {
-			   var haightAshbury = new google.maps.LatLng(48.857091635218, 2.3417479951579);
+			   var paris = new google.maps.LatLng(48.857091635218, 2.3417479951579);
 			   var mapOptions = {
-			     zoom: 12,
-			     center: haightAshbury,
+			     zoom: 13,
+			     center: paris,
 			     //mapTypeId: google.maps.MapTypeId.TERRAIN
 			   };
 			   map = new google.maps.Map(document.getElementById('map-canvas'),
@@ -66,12 +69,27 @@
 
 			   // Adds a marker at the center of the map.
 			   //addMarker(haightAshbury);
-			   
-			   
-			   var latitude = '<?php echo $lat; ?>' ;
-			   var longtitude = '<?php echo $long; ?>' ;
-			   var position2=new google.maps.LatLng(latitude, longtitude) ;
-			   addMarker(position2);
+			   <?php
+  			 	require_once("db.class.php");
+  	 			if(isset($_GET['codep'])) $codepostal=$_GET['codep'];
+  	 			else $codepostal="";
+  				$db = new DB();
+  				if ($codepostal!="") {
+  					$req="SELECT *
+  						FROM velib 
+  						WHERE cp= $codepostal
+  						ORDER BY name";
+  					$db->query($req);
+  					while ($db->fetch_assoc()) {
+  						$lat=$db->row['latitude'] ;
+  						$long=$db->row['longitude'] ;
+						echo "var position = new google.maps.LatLng(".$lat.",".$long.");" ;
+						echo "addMarker(position);" ; 
+  					}
+  				}
+  				$db->close();
+			   	?>
+			   //addMarker(position2);
 			 }
 
 			 // Add a marker to the map and push to the array.
