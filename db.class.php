@@ -13,6 +13,8 @@ class DB {
 		$this->user = root;
 		$this->pass = cuong;
 		$this->link = mysql_connect($this->host, $this->user, $this->pass);
+		mysql_query("SET NAMES utf8") ;
+		mysql_query("SET CHARACTER SET utf8");
 		mysql_select_db($this->db);
 	}
    

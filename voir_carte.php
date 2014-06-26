@@ -6,7 +6,6 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="shortcut icon" href="../../assets/ico/favicon.ico">
-
     <title>Voir sur la carte</title>
 
     <!-- Bootstrap core CSS -->
@@ -434,7 +433,7 @@
 	   			    <form role ="form" method ="POST">
 	   					<div class ="form-group">
 	   						<label for="rayon distance">Rayon de recherche </label>
-	   						<input id ="rayon distance" type ="text" name ="distance" placeholder="Distance en m">
+	   						<input id ="rayon distance" type ="text" name ="distance_musee" placeholder="Distance musee en m">
 							<button type="submit" class="btn btn-default">Recherche</button>
 	   					</div>
 	   				</form>
@@ -446,9 +445,9 @@
 							else $nom="";	
 						
 							if ($nom!="" or !$nom=0){
-								if (isset($_POST['distance'])) $rayon=$_POST['distance'];
-								else $rayon=0 ;
-								if ($rayon!=0){
+								if (isset($_POST['distance_musee'])) $rayon_musee=$_POST['distance_musee'];
+								else $rayon_musee=0 ;
+								if ($rayon_musee!=0){
 									$db = new DB();
 									$req1="select * from velib 
 											where number=$nom";
@@ -458,19 +457,20 @@
 										$long =  $db->row['longitude'];
 									}
 									$req2="select * from  
-										(select number, name, address,cp, longitude,latitude,									 									POW((POW(latitude-$lat,2)+POW(longitude-$long,2)),(1/2))*100 
-									as distance from velib order by distance)	as tempo 
-									where distance  < $rayon/1000 "; 
+										(select id_musee, nom_du_musee,latitude, longitude, POW ( (POW(latitude-$lat,2)+POW(longitude-$long,2)),(1/2))*100 	
+as distance from musee order by distance )	as tempo 
+									where distance  < $rayon_musee/1000 "; 
 									$db->query($req2);
 									while ($db->fetch_assoc()){
 										echo '<form action>' ;
 										if (round($db->row["distance"]*1000)>1){
+											#echo $db->row["nom_du_musee"] ;
 											echo '<script>';
-											echo 'addMarker_latlng('.$db->row["latitude"].','.$db->row["longitude"].','.$db->row["number"].');';
+											echo 'addMarker_latlng('.$db->row["latitude"].','.$db->row["longitude"].','.$db->row["id_musee"].');';
 											echo '</script>';
 											echo '<li>';
 											echo '<div class="checkbox">';
-											echo '<input id='.$db->row['number'].' type ="checkbox"  onclick="Markers('.$db->row['number'].')"><a href="#">'.substr($db->row["name"],8).'<span class="badge pull-right">'.round($db->row["distance"]*1000).' m</span></a></input>' ; 
+											echo '<input id='.$db->row['id_musee'].' type ="checkbox"  onclick="Markers('.$db->row['id_musee'].')"><a href="#">'.$db->row["nom_du_musee"].'<span class="badge pull-right">'.round($db->row["distance"]*1000).' m</span></a></input>' ; 
 											echo '</div>';
 																				
 											echo '</li>';
@@ -484,7 +484,7 @@
 						   ?>
 					   </ul>
 				 </div>	
-	  	   </div>
+	  	    </div>
 	  </div>	
 	  <div id="map-canvas"/>
 			<!--<div id="map" style="width: 640px; height: 500px; padding:-5px;"></div>-->
