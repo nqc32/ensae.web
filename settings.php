@@ -1,6 +1,6 @@
 <?php
-	$project_name = "Géolocalisation Vélib";
-	$page1 ="Velib par Code Postal";
-	$page2="Voir sur la Carte";
-	$page3="Lien"	;
+	$project_name = "Géolocalisation";
+	$page1 ="Recherche";
+	$page2="Station Vélib'";
+	$page3="Musée"	;
 ?>

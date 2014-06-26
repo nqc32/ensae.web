@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="shortcut icon" href="../../assets/ico/favicon.ico">
-    <title>Visualisation de stations Vélib' en région parisienne</title>
+    <title>Visualiser les musées de Paris</title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -92,7 +92,8 @@
 					
 				}
 			 }
-				 
+			 
+			 
 			 function initialize() {
 			   var paris = new google.maps.LatLng(48.857091635218, 2.3417479951579);
 			   var mapOptions = {
@@ -220,8 +221,8 @@
       <div class="container">
         <!-- Static navbar -->
         <div class="navbar navbar-default" role="navigation">
-        	<div class="container-fluid">
-            	<div class="navbar-header">
+        <div class="container-fluid">
+            <div class="navbar-header">
               <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
@@ -233,24 +234,33 @@
  			echo '<a class="navbar-brand" href="velib.php">'.$project_name.'</a>' ;
  			?>
             </div>
-            	<div class="navbar-collapse collapse">
-         	   <ul class="nav navbar-nav">
-  			 	 <?php
+            <div class="navbar-collapse collapse">
+              <ul class="nav navbar-nav">
+  			 <?php
   			 require_once("settings.php");
                 echo '<li ><a href=velib.php>'.$page1.'</a></li>' ;
-                echo '<li class="active" ><a href=voir_carte.php>'.$page2.'</a></li>';
-                echo '<li><a href="voir_musee.php">'.$page3.'</a></li>';
+                echo '<li ><a href=voir_carte.php>'.$page2.'</a></li>';
+                echo '<li class="active"><a href="voir_musee.php">'.$page3.'</a></li>';
   			 ?>
-           	  </ul>
-              <ul class="nav navbar-nav navbar-right" >
- 				  <li><a href="connexion.php">Pages Personnels</a></li>
-		  	  </ul>
+                 <!--<li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Visualiser <b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="voir_carte.php">Station Vélib''</a></li>
+                    <li class="divider"></li>
+                    <li><a href="voir_musee.php">Musée</a></li>
+
+                  </ul> <!-->
+                </li>
+              </ul>
+          	  <ul class="nav navbar-nav navbar-right" >
+			  <li><a href="connexion.php">Pages Personnels</a></li>
+	  		  </ul>
             </div><!--/.nav-collapse -->
-        	</div><!--/.container-fluid -->
-        </div>
+          </div><!--/.container-fluid -->
+      </div>
 
         <!-- Main component for a primary marketing message or call to action -->
-       <div class="bs-example" style="font-size:small;">
+      <div class="bs-example" style="font-size:small;">
           <h2>Voir sur la carte</h2>
   		<!-- Début Formulaire -->
 			<form id="code_postal" role="select" method="GET" >
@@ -317,7 +327,7 @@
 				</div>
   			</form>
 	  </div>
-	   <div class="bs-docs-section" style="float:left;max-width:360px;">
+	  <div class="bs-docs-section" style="float:left;max-width:360px;">
 			<div class="panel panel-primary" style="float:left;width:300px;">
 				 <div class="panel-heading">
 					 <h4 class="panel-title">Addresse de la station sélectionnée</h4>
@@ -401,6 +411,7 @@
 							}
 						 
 						}
+						#$db->close();
 					   ?>
 				   </ul>
 			  </div>
@@ -452,7 +463,7 @@ as distance from musee order by distance )	as tempo
 											echo '</script>';
 											echo '<li>';
 											echo '<div class="checkbox">';
-											echo '<input id='.$db->row['id_musee'].' type ="checkbox"  onclick="Markers('.$db->row['id_musee'].')"><a href="voir_musee.php?id='.$db->row['id_musee'].'">'.$db->row["nom_du_musee"].'<span class="badge pull-right">'.round($db->row["distance"]*1000).' m</span></a></input>' ; 
+											echo '<input id='.$db->row['id_musee'].' type ="checkbox"  onclick="Markers('.$db->row['id_musee'].')"><a href="#">'.$db->row["nom_du_musee"].'<span class="badge pull-right">'.round($db->row["distance"]*1000).' m</span></a></input>' ; 
 											echo '</div>';
 																				
 											echo '</li>';
@@ -468,9 +479,11 @@ as distance from musee order by distance )	as tempo
 				 </div>	
 	  	    </div>
 	  </div>	
-	   <div id="map-canvas"/>
+	  <div id="map-canvas"/>
 			<!--<div id="map" style="width: 640px; height: 500px; padding:-5px;"></div>-->
-	    </div>
+			
+			<script>
+			</script> 
   		<!-- Fin Formulaire -->
 <!-- 	
 		
