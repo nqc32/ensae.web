@@ -297,7 +297,7 @@
 			  </div>
 			  
 			  <div class="panel-body">
-   			    <form role ="form" method ="GET">
+   			    <form role ="form" method ="POST">
    					<div class ="form-group">
    						<label for="rayon distance">Rayon de recherche </label>
    						<input id ="rayon distance" type ="text" name ="distance" placeholder="Distance en m">
@@ -312,7 +312,7 @@
 						else $nom="";	
 						
 						if ($nom!="" or !$nom=0){
-							if (isset($_GET['distance'])) $rayon=$_GET['distance'];
+							if (isset($_POST['distance'])) $rayon=$_POST['distance'];
 							else $rayon=0 ;
 							if ($rayon!=0){
 								$db = new DB();
