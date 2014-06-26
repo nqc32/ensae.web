@@ -24,7 +24,32 @@
 		       
 			 <script type="text/javascript"
 		         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB4NInl2ygUk82FWxXwjUFQ9LFX9RR0V9o">
-		     </script>	   
+		     </script>	  
+			<!--<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAFnFO3ySluSuha6r1vYekiRQNy_ewe8RNLHRa7cwLE-yWPUZNWBSV43OE1hhpvzIXRf04qzvWdmKBEw&amp;sensor=false" type="text/javascript"></script>
+						
+			 <script type="text/javascript">
+ 		 		function Markers(number){
+ 		 		map.getInfoWindow().hide() 
+ 		    	if (document.getElementById(number).checked==false) { // hide the marker
+ 		       	 	for (var i=0;i<gmarkers.length;i++) {
+ 		          		if (gmarkers[i].type==number)  {
+ 		             		map.removeOverlay(gmarkers[i]);
+ 		          		}
+ 		       		}
+ 		    	} else { // show the marker again
+ 		       	 	for (var i=0;i<gmarkers.length;i++) {
+ 		          	  if (gmarkers[i].type==number)  {
+ 		             	 map.addOverlay(gmarkers[i]);
+ 		          			}
+ 		       	 		}
+ 		    		}
+ 		 		}
+			 
+			 </script>
+			 --> 
+			 <script type="text/javascript">
+			 
+			 </script>
 			 <?php
 			 require_once("db.class.php");
 	 		 if(isset($_GET['id'])) $station=substr($_GET['id'],0,5);
@@ -39,20 +64,61 @@
 				while ($db->fetch_assoc()) {
 					$lat=$db->row['latitude'] ;
 					$long=$db->row['longitude'] ;
-					$info = $db->row['address'] ;
+					$id_velib = $db->row['number'] ;
 				}
 				#$lat= 48.867091635218 ; 
 				#$long= 2.3417479951579;
 			 }
 			 $db->close();	
 			 ?>
+			 
+			 
+			 
 		     <script type="text/javascript">
 			 var map;
 			 var markers = [];
+			 //var gmarkers = [];
 		   	 var latitude = '<?php echo $lat; ?>' ;
 		   	 var longtitude = '<?php echo $long; ?>' ;
-			 //var address = '<?php echo $info; ?>' 
+			 var number = '<?php echo $id_velib; ?>' 
 		   	 var position2=new google.maps.LatLng(latitude, longtitude) ; // position du point indiqué
+			 var image = 'images/museum-256.png';
+			 /*var request;
+			 // var bounds = new GBounds(Number.MAX_VALUE, Number.MAX_VALUE, -Number.MAX_VALUE, -Number.MAX_VALUE); 
+			 var bounds = new GLatLngBounds();
+			 // Create our "tiny" marker icon 
+			 var baseIcon = new GIcon();
+			 baseIcon.image = "http://labs.google.com/ridefinder/images/mm_20_red.png";
+			 baseIcon.shadow = "http://labs.google.com/ridefinder/images/mm_20_shadow.png";
+			 baseIcon.iconSize = new GSize(12, 20);
+			 baseIcon.shadowSize = new GSize(22, 20);
+			 baseIcon.iconAnchor = new GPoint(6, 20);
+			 baseIcon.infoWindowAnchor = new GPoint(5, 1);
+			 baseIcon.imageMap = [4,0,0,4,0,7,3,11,4,19,7,19,8,11,11,7,11,4,7,0]; 
+			 baseIcon.transparent = "mapIcons/mm_20_transparent.png";*/
+			 function Markers(number){
+			 	if (document.getElementById(number).checked==false) {
+			 		for (var i=0; i<markers.length;i++){
+			 			if (markers[i].getTitle()==number) {
+			 				markers[i].setVisible(false) ;
+			 			}	
+			 		}
+			 	} else {
+					for (var i=0; i<markers.length;i++){
+			 			if (markers[i].getTitle()==number) {
+			 				markers[i].setVisible(true) ;
+							markers[i].setMap(map);
+			 			}	
+			 		}
+					
+				}
+				//markers.setMap(map);
+			 }
+			 
+			 
+			 
+			 
+			 
 			 
 			 function initialize() {
 			   var paris = new google.maps.LatLng(48.857091635218, 2.3417479951579);
@@ -90,13 +156,14 @@
 						echo "addMarker(position);" ;  
   					}
   				}
-				#else echo "addMarker_info(position2,address);";  // si non, placer seulement le point indiqué
-  				else echo "addMarker(position2);";
+				else echo "addMarker_info(position2,number);";  // si non, placer seulement le point indiqué
+  				#else echo "addMarker(position2);";
 				$db->close();
 			   	?>
-			   //
+			   //markers.setMap(map);
+			   
 			 }
-
+			 
 			 // Add a marker to the map and push to the array.
 			 function addMarker(location) {
 			   var marker = new google.maps.Marker({
@@ -114,7 +181,55 @@
 			   });
 			   markers.push(marker);
 			 }
+			 
+			 function addMarker_latlng(lat,long,info){
+				var location =	new google.maps.LatLng(lat, long);
+		 		/*var exist = true ; 
+				for (var i=0; i<markers.length;i++){
+		 			if (markers[i].getTitle()==info) {
+		 				exist = false ;
+		 			}	
+				if (exist){*/
+				var titre =  String(info) ;
+  			   		var marker = new google.maps.Marker({
+  			     		position: location,
+  			     		map: map,
+  				 		title : titre,
+						icon : image
+  			   		});
+  			   	 	markers.push(marker); 
+					//markers.setMap(map);
+					//}
+			 }
+			 
+			 /*function addMarker(lng, lat, title, iconStr) {
+			    var point = new GLatLng(lat, lng);
+			    bounds.extend(point);
+			    //var icon = coloredRideshareIcon(iconStr);
+			    var marker = new GMarker(point);//, icon);
+			    gmarkers.push(marker);
+			    marker.type = iconStr; 
+			    GEvent.addListener(marker, "click", function () {
+			       // FF 1.5 fix
+			    var text = "<div style=\"white-space:nowrap;\"><div align=\"center\" 					class=\"smalltext\">"+title +"</div></div>";
+			       marker.openInfoWindowHtml(text);
+			    });
+			    map.addOverlay(marker);
+			 }*/
+			 
+			 /*function makeMap() {
+			    map = new GMap(document.getElementById("map"));
+			    map.addControl(new GLargeMapControl());
+			    map.addControl(new GMapTypeControl());
+			 //   map.centerAndZoom(new GPoint(-3.97729, 54.30000), 11);	
+			    map.setCenter(new GLatLng(48.857091635218, 2.3417479951579), 13);
 
+			    request = GXmlHttp.create(); 
+			    request.open("GET", "checkbox_exampleC.xml", true); 
+			    request.onreadystatechange = processXML;
+			    request.send(null);
+			 }	
+			 */
 			 // Sets the map on all markers in the array.
 			 function setAllMap(map) {
 			   for (var i = 0; i < markers.length; i++) {
@@ -138,13 +253,19 @@
 			   markers = [];
 			 }
 
-			 google.maps.event.addDomListener(window, 'load', initialize);
+		     //<![CDATA[
+			 
+			 
+		 	
+		   //]]> 
+			 
+			 //google.maps.event.addDomListener(window, 'load', initialize);
 
 		     </script>
 			
   </head>
 
-<body>
+<body onload="initialize();" >
       <div class="container">
         <!-- Static navbar -->
         <div class="navbar navbar-default" role="navigation">
@@ -324,19 +445,21 @@
 									$long =  $db->row['longitude'];
 								}
 								$req2="select * from  
-									(select number, name, address,cp, 									 									POW((POW(latitude-$lat,2)+POW(longitude-$long,2)),(1/2))*100 
+									(select number, name, address,cp, longitude,latitude,									 									POW((POW(latitude-$lat,2)+POW(longitude-$long,2)),(1/2))*100 
 								as distance from velib order by distance)	as tempo 
 								where distance  < $rayon/1000 "; 
 								$db->query($req2);
 								while ($db->fetch_assoc()){
-									echo '<form method="POST">' ;
+									echo '<form action>' ;
 									if (round($db->row["distance"]*1000)>1){
+										echo '<script>';
+										echo 'addMarker_latlng('.$db->row["latitude"].','.$db->row["longitude"].','.$db->row["number"].');';
+										echo '</script>';
 										echo '<li class="list-group-item">';
 										echo '<span class="badge">'.round($db->row["distance"]*1000).' m</span>';
 										echo '<div class="checkbox">';
-										echo '<input name ="markers[]" type ="checkbox" value ='.$db->row['number'].'>'.substr($db->row["name"],8) ; 
-										echo '</div>';
-										
+										echo '<input id='.$db->row['number'].' type ="checkbox"  onclick="Markers('.$db->row['number'].')">'.substr($db->row["name"],8).'</input>' ; 
+										echo '</div>';										
 										echo '</li>';
 									}
 									echo '</form>';
@@ -363,9 +486,9 @@
 		</div>
 		
 			<div id="map-canvas"/>
+			<!--<div id="map" style="width: 640px; height: 500px; padding:-5px;"></div>-->
+			
 			<script>
-		 	//var myLatlng2 = new google.maps.LatLng(48.8, 2.3417479951579);
-		 	//addMarker(myLatlng2);
 			</script> 
   		<!-- Fin Formulaire -->
 <!-- 	
