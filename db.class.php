@@ -8,10 +8,10 @@ class DB {
 	
 	function DB($debug=FALSE) {
 		$this->debug=$debug;
-		$this->host = localhost;
-		$this->db=cuong;
-		$this->user = root;
-		$this->pass = cuong;
+		$this->host = "localhost";
+		$this->db="cuong";
+		$this->user = "root";
+		$this->pass = "cuong";
 		$this->link = mysqli_connect($this->host, $this->user, $this->pass,$this->db);
 		#mysqli_query($this->link,"SET NAMES utf8") ;
 		#mysqli_query($this->link;"SET CHARACTER SET utf8");
