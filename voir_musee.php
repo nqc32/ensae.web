@@ -253,7 +253,7 @@
                 </li>
               </ul>
           	  <ul class="nav navbar-nav navbar-right" >
-			  <li><a href="connexion.php">Pages Personnels</a></li>
+			  <li><a href="connexion.php">Espace Personnel</a></li>
 	  		  </ul>
             </div><!--/.nav-collapse -->
           </div><!--/.container-fluid -->

@@ -46,7 +46,7 @@
               <ul class="nav navbar-nav">
 			 <?php
 			 require_once("settings.php");
-              echo '<li class="active"><a href=velib.php>'.$page1.'</a></li>' ;
+              echo '<li ><a href=velib.php>'.$page1.'</a></li>' ;
               echo '<li ><a href=voir_carte.php>'.$page2.'</a></li>';
               echo '<li><a href="voir_musee.php">'.$page3.'</a></li>';
 			 ?>
@@ -61,7 +61,7 @@
               </li> <!-->
               </ul>
               <ul class="nav navbar-nav navbar-right" >
-  				  <li><a href="connexion.php">Espace Personnel</a></li>
+  				  <li class="active"><a href="connexion.php">Espace Personnel</a></li>
 			  </ul>
               <!--<li class="active"><a href="./">Default</a></li>
               <li><a href="../navbar-static-top/">Static top</a></li>
@@ -69,64 +69,10 @@
           </div><!--/.nav-collapse -->
         	</div><!--/.container-fluid -->
       	</div>
-
-     	<div class="jumbotron">
-        	<h1>Recherche par Code Postal</h1>
-			<form class="navbar-form navbar-left" role="search" method="POST">
-		   
-			<div class="form-group">
-		    	<input type="text" name="code" class="form-control" placeholder="Code postal">
-		  	</div>
-	
-		  	<button type="submit" class="btn btn-lg btn-primary">Recherche</button>
-			</form>
-			
-			<div class="table-responsive">
-				<?php
-					require_once("db.class.php");
-		
-					if(isset($_POST['code'])) $filtre=$_POST['code'];
-					else $filtre="";
-		
-					$db = new DB();
-					if ($filtre!="") {
-					echo '<table class="table table-striped .table-condensed ">';
-					echo "<thead>" ;
-					echo " <tr>" ;
-					echo " <th>Nom de station</th>" ;
-					echo " <th>Adresse</th>" ;
-					echo "<th><a href=\"voir_carte.php?codep=".$filtre."\">Tout Afficher</a></td>";
-					echo " </tr>" ;
-					echo " </thead>";
-					echo " <tbody>" ;
-					$req="SELECT *
-						FROM velib 
-						WHERE cp = $filtre
-						ORDER BY name";
-					$db->query($req);
-			
-					while ($db->fetch_assoc()) {
-						echo "<tr>";
-						echo "<td>".substr($db->row['name'],8)."</td>";
-						echo "<td>".$db->row['address']."</td>";
-						echo "<td><a href=\"voir_carte.php?codep=".$filtre."&id=".$db->row['number']."\">Voir sur la carte</a></td>";
-				#echo "<td>".$db->row['latitude']."</td>";
-				#echo "<td>".$db->row['longitude']."</td>";
-						echo "</tr>";
-					}
-					echo "</tbody>";
-					echo "</table>";
-			    }
-				?>
-        	</div>
-			<br>
-		</div>
-		
-    </div> <!-- /container -->
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-  </body>
+		 <div class="bs-docs-section" style="float:left;max-width:360px;">
+			 
+			 
+			 test
+		 </div>
+</body>
 </html>
