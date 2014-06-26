@@ -259,13 +259,13 @@
 		 	
 		   //]]> 
 			 
-			 //google.maps.event.addDomListener(window, 'load', initialize);
+			 google.maps.event.addDomListener(window, 'load', initialize);
 
 		     </script>
 			
   </head>
 
-<body onload="initialize();" >
+<body >
       <div class="container">
         <!-- Static navbar -->
         <div class="navbar navbar-default" role="navigation">
