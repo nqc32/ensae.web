@@ -1,5 +1,5 @@
 <html lang="en">
-  <head>
+ <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -18,7 +18,7 @@
 	
 		    <style type="text/css">
 		         html { height: 100% }
-		         body { height: 80%; margin: 0; padding: 0 }
+		         body { height: 65%; margin: 0; padding: 0 }
 		         #map-canvas { height: 100% }
 		     </style>
 		       
@@ -57,7 +57,7 @@
 		   	 var longtitude = '<?php echo $long; ?>' ;
 			 var number = '<?php echo $id_velib; ?>' 
 		   	 var position2=new google.maps.LatLng(latitude, longtitude) ; // position du point indiqué
-			 var image = {
+			 /*var image = {
 			     url: 'images/museum-256.png',
 			     // This marker is 20 pixels wide by 32 pixels tall.
 			     size: new google.maps.Size(20, 32),
@@ -65,7 +65,8 @@
 			     origin: new google.maps.Point(0,0),
 			     // The anchor for this image is the base of the flagpole at 0,32.
 			     anchor: new google.maps.Point(0, 32)
-			   };
+			   };*/
+				 var image = 'images/pin.png';
 			   // Shapes define the clickable region of the icon.
 			   // The type defines an HTML &lt;area&gt; element 'poly' which
 			   // traces out a polygon as a series of X,Y points. The final
@@ -92,10 +93,6 @@
 					
 				}
 			 }
-			 
-			 
-			 
-			 
 			 
 			 
 			 function initialize() {
@@ -130,10 +127,17 @@
   						$long=$db->row['longitude'] ;
 						#$info =$db->row['name'] ;
 						echo "var position = new google.maps.LatLng(".$lat.",".$long.");" ;
-						echo "addMarker(position);" ;  
-  					}
+						echo "addMarker_info(position);" ;  
+  					} ;
+					echo "map.setCenter(position)";
   				}
-				else echo "addMarker_info(position2,number);";  // si non, placer seulement le point indiqué
+				else {
+					if (isset($_GET['id'])){
+					echo "addMarker_info(position2,number);";
+					echo "map.setCenter(position2);";
+					echo "map.setZoom(15);";
+					}
+				};  // si non, placer seulement le point indiqué
   				#else echo "addMarker(position2);";
 				$db->close();
 			   	?>
@@ -171,8 +175,8 @@
   			   		var marker = new google.maps.Marker({
   			     		position: location,
   			     		map: map,
-  				 		title : titre,
-						icon : image
+  				 		title : titre
+						//icon : image
   			   		});
   			   	 	markers.push(marker); 
 					//markers.setMap(map);
@@ -218,7 +222,7 @@
       <div class="container">
         <!-- Static navbar -->
         <div class="navbar navbar-default" role="navigation">
-          <div class="container-fluid">
+        <div class="container-fluid">
             <div class="navbar-header">
               <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="sr-only">Toggle navigation</span>
@@ -261,11 +265,11 @@
               </ul>
             </div><!--/.nav-collapse -->
           </div><!--/.container-fluid -->
-        </div>
+      </div>
 
         <!-- Main component for a primary marketing message or call to action -->
-        <div class="jumbotron">
-          <h1>Voir sur la carte</h1>
+      <div class="bs-example" style="font-size:small;">
+          <h2>Voir sur la carte</h2>
   		<!-- Début Formulaire -->
 			<form id="code_postal" role="select" method="GET" >
 				<div class="form-group">
@@ -330,9 +334,11 @@
 					</select>
 				</div>
   			</form>
-			<div class="panel panel-success">
+	  </div>
+	  <div class="bs-docs-section" style="float:left;max-width:360px;">
+			<div class="panel panel-primary" style="float:left;width:300px;">
 				 <div class="panel-heading">
-					 <h3 class="panel-title">Addresse de la station sélectionnée</h3>
+					 <h4 class="panel-title">Addresse de la station sélectionnée</h4>
 			   	</div>
 				<div class="panel-body">
 				<?php
@@ -358,14 +364,11 @@
 					$db->close();
 				?> 				
 				</div>
-				</div>
-				
-			<div class="panel panel-info">
-				
+			</div>
+			<div class="panel panel-success" style="float:left;width:300px;">
 			  <div class="panel-heading">
-				 <h3 class="panel-title">Les stations les plus proches</h3>
+				 <h4 class="panel-title">Les stations les plus proches</h4>
 			  </div>
-			  
 			  <div class="panel-body">
    			    <form role ="form" method ="POST">
    					<div class ="form-group">
@@ -374,7 +377,7 @@
 						<button type="submit" class="btn btn-default">Recherche</button>
    					</div>
    				</form>
-				   <ul class="list-group">
+				   <ul class="nav nav-pills">
 					   <?php
    						require_once("db.class.php");
 						
@@ -404,11 +407,11 @@
 										echo '<script>';
 										echo 'addMarker_latlng('.$db->row["latitude"].','.$db->row["longitude"].','.$db->row["number"].');';
 										echo '</script>';
-										echo '<li class="list-group-item">';
-										echo '<span class="badge">'.round($db->row["distance"]*1000).' m</span>';
+										echo '<li>';
 										echo '<div class="checkbox">';
-										echo '<input id='.$db->row['number'].' type ="checkbox"  onclick="Markers('.$db->row['number'].')">'.substr($db->row["name"],8).'</input>' ; 
-										echo '</div>';										
+										echo '<input id='.$db->row['number'].' type ="checkbox"  onclick="Markers('.$db->row['number'].')"><a href="voir_carte.php?'.'codep='.$_GET['codep'].'&id='.$db->row['number'].'">'.substr($db->row["name"],8).'<span class="badge pull-right">'.round($db->row["distance"]*1000).' m</span></a></input>' ; 
+										echo '</div>';
+																				
 										echo '</li>';
 									}
 									echo '</form>';
@@ -416,32 +419,81 @@
 							}
 						 
 						}
-						
-						#foreach($_POST['markers'] as $i)
-						         #echo $i ."\n";
-						
 						#$db->close();
-						
 					   ?>
 				   </ul>
 			  </div>
 			  
 			  
 			</div>
-			
-			
-			</p>
-			
-		</div>
-		
-			<div id="map-canvas"/>
+			<div class="panel panel-info" style="float:left;width:300px;">
+				 <div class="panel-heading">
+					 <h4 class="panel-title">Liste des musées aux alentours</h4>
+			   	 </div>
+				 <div class="panel-body">
+	   			    <form role ="form" method ="POST">
+	   					<div class ="form-group">
+	   						<label for="rayon distance">Rayon de recherche </label>
+	   						<input id ="rayon distance" type ="text" name ="distance" placeholder="Distance en m">
+							<button type="submit" class="btn btn-default">Recherche</button>
+	   					</div>
+	   				</form>
+					   <ul class="nav nav-pills">
+						   <?php
+	   						require_once("db.class.php");
+						
+							if(isset($_GET['id'])) $nom=$_GET['id'];
+							else $nom="";	
+						
+							if ($nom!="" or !$nom=0){
+								if (isset($_POST['distance'])) $rayon=$_POST['distance'];
+								else $rayon=0 ;
+								if ($rayon!=0){
+									$db = new DB();
+									$req1="select * from velib 
+											where number=$nom";
+									$db->query($req1);
+									while ($db->fetch_assoc()) {
+										$lat= $db->row['latitude'];
+										$long =  $db->row['longitude'];
+									}
+									$req2="select * from  
+										(select number, name, address,cp, longitude,latitude,									 									POW((POW(latitude-$lat,2)+POW(longitude-$long,2)),(1/2))*100 
+									as distance from velib order by distance)	as tempo 
+									where distance  < $rayon/1000 "; 
+									$db->query($req2);
+									while ($db->fetch_assoc()){
+										echo '<form action>' ;
+										if (round($db->row["distance"]*1000)>1){
+											echo '<script>';
+											echo 'addMarker_latlng('.$db->row["latitude"].','.$db->row["longitude"].','.$db->row["number"].');';
+											echo '</script>';
+											echo '<li>';
+											echo '<div class="checkbox">';
+											echo '<input id='.$db->row['number'].' type ="checkbox"  onclick="Markers('.$db->row['number'].')"><a href="#">'.substr($db->row["name"],8).'<span class="badge pull-right">'.round($db->row["distance"]*1000).' m</span></a></input>' ; 
+											echo '</div>';
+																				
+											echo '</li>';
+										}
+										echo '</form>';
+									}	
+								}
+						 
+							}
+							#$db->close();
+						   ?>
+					   </ul>
+				 </div>	
+	  	   </div>
+	  </div>	
+	  <div id="map-canvas"/>
 			<!--<div id="map" style="width: 640px; height: 500px; padding:-5px;"></div>-->
 			
 			<script>
 			</script> 
   		<!-- Fin Formulaire -->
 <!-- 	
-
+		
 	require_once("db.class.php");
 	if (isset($_GET['id'])) $_SESSION['id_velib']=$_GET['id'];
 	$db = new DB(localhost,"root","cuong","cuong");
