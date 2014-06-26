@@ -27,19 +27,19 @@
 			 
 			 <?php
 			 require_once("db.class.php");
-	 		 if(isset($_GET['id'])) $station=substr($_GET['id'],0,5);
-	 		 else $station="";
+	 		 if(isset($_GET['id'])) $musee=substr($_GET['id'],0,5);
+	 		 else $musee="";
 			 $db = new DB();
-			 if ($station!="") {
+			 if ($musee!="") {
 				$req="SELECT *
-				FROM velib 
-				WHERE number= $station
-				ORDER BY name";
+				FROM musee
+				WHERE id_musee= $musee
+				ORDER BY id_musee";
 				$db->query($req);
 				while ($db->fetch_assoc()) {
 					$lat=$db->row['latitude'] ;
 					$long=$db->row['longitude'] ;
-					$id_velib = $db->row['number'] ;
+					$id_musee = $db->row['id_musee'] ;
 				}
 				#$lat= 48.867091635218 ; 
 				#$long= 2.3417479951579;
@@ -54,7 +54,7 @@
 			 var markers = [];
 		   	 var latitude = '<?php echo $lat; ?>' ;
 		   	 var longtitude = '<?php echo $long; ?>' ;
-			 var number = '<?php echo $id_velib; ?>' 
+			 var number = '<?php echo $id_musee; ?>' 
 		   	 var position2=new google.maps.LatLng(latitude, longtitude) ; // position du point indiqué
 			 /*var image = {
 			     url: 'images/museum-256.png',
@@ -117,9 +117,9 @@
   				$db = new DB();
   				if ($codepostal!="") { //si le code postal est passé en argument
   					$req="SELECT *
-  						FROM velib 
+  						FROM musee
   						WHERE cp= $codepostal
-  						ORDER BY name";
+  						ORDER BY id_musee";
   					$db->query($req);
   					while ($db->fetch_assoc()) { // placer tous les points situés dans la zone
   						$lat =$db->row['latitude'] ;
@@ -261,7 +261,7 @@
 
         <!-- Main component for a primary marketing message or call to action -->
       <div class="bs-example" style="font-size:small;">
-          <h2>Voir sur la carte</h2>
+          <h2>Musée en région Parisienne</h2>
   		<!-- Début Formulaire -->
 			<form id="code_postal" role="select" method="GET" >
 				<div class="form-group">
@@ -272,13 +272,23 @@
 						if(isset($_GET['codep'])) $remplie=$_GET['codep'] ;
 						else $remplie="";
 						
+						if (isset($_GET['id'])) $musee_id = $_GET['id'];
+						else $musee_id="";
 						#if ($remplie!=""){
 						#	echo '<option selected="selected">'.$remplie.'</option>';
 						#}
 						require_once("db.class.php");
 						$db = new DB();
+						if (($musee_id!=0 or $musee_id!="") and ($remplie==0 or $remplie=="")){
+							$req0="SELECT * from musee
+								where id_musee=$musee_id";
+							$db->query($req0);
+							while ($db->fetch_assoc()){
+								$remplie=$db->row['cp'];
+							}
+						}
 						$req="SELECT distinct cp
-								FROM velib 
+								FROM musee
 								ORDER BY cp";
 						$db->query($req);
 						while ($db->fetch_assoc()) {
@@ -294,7 +304,7 @@
 					</select>
 				</div>
 				<div class = "form-group">
-					<label for="station velib">Station Vélib </label>
+					<label for="station velib">Liste des musées </label>
   		    		<select id="station velib" name="id" class="form-control" onclick="submit();return false">
 						<option VALUE=0>Toutes les stations</option>
 						<?php
@@ -310,15 +320,15 @@
 						$db = new DB();
 						if ($filtre!=""){
 						$req="SELECT *
-							FROM velib 
+							FROM musee 
 							WHERE cp = $filtre
-							ORDER BY name";	
+							ORDER BY id_musee";	
 						$db->query($req);
 						while ($db->fetch_assoc()) {
-							if ($db->row['number']!=$nom){
-								echo '<option VALUE ='.$db->row['number'].'>'.$db->row['name'].'</option>'; }
+							if ($db->row['id_musee']!=$nom){
+								echo '<option VALUE ='.$db->row['id_musee'].'>'.$db->row['nom_du_musee'].'</option>'; }
 							else {
-								echo '<option selected VALUE='.$db->row['number'].'>'.$db->row['name'] .'</option>';}
+								echo '<option selected VALUE='.$db->row['id_musee'].'>'.$db->row['nom_du_musee'] .'</option>';}
 						}
 						}
 						$db->close();
@@ -330,9 +340,10 @@
 	  <div class="bs-docs-section" style="float:left;max-width:360px;">
 			<div class="panel panel-primary" style="float:left;width:300px;">
 				 <div class="panel-heading">
-					 <h4 class="panel-title">Addresse de la station sélectionnée</h4>
+					 <h4 class="panel-title">Information</h4>
 			   	</div>
 				<div class="panel-body">
+					<ul class="list-group">
 				<?php
 					require_once("db.class.php");
 				
@@ -345,16 +356,21 @@
 					$db = new DB();
 					if ($nom!="" or $nom!=0){
 					$req="SELECT *
-						FROM velib 
-						WHERE number = $nom
-						ORDER BY name";	
+						FROM musee
+						WHERE id_musee = $nom
+						ORDER BY nom_du_musee";	
 					$db->query($req);
 					while ($db->fetch_assoc()) {
-						echo $db->row['address']; 
+						echo '<li class="list-group-item"> <strong>'.$db->row['nom_du_musee'].'</strong></li>';
+						echo '<li class="list-group-item"> <strong>Adresse </strong>: '.$db->row['adresse'].', '.$db->row['cp'].' '.$db->row['ville'].'</li>';
+						echo '<li class="list-group-item"> <strong>Ouverture</strong>: '.$db->row['periode_ouverture'].'</li>';
+						echo '<li class="list-group-item"> <strong>Site Web</strong>: <a href=http://'.$db->row['sitweb'].'>'.$db->row['sitweb'].'</a></li>';
+						
 					}
 					}
 					$db->close();
-				?> 				
+				?> 		
+					</ul>
 				</div>
 			</div>
 			<div class="panel panel-success" style="float:left;width:300px;">
@@ -381,8 +397,8 @@
 							else $rayon=0 ;
 							if ($rayon!=0){
 								$db = new DB();
-								$req1="select * from velib 
-										where number=$nom";
+								$req1="select * from musee
+										where id_musee=$nom";
 								$db->query($req1);
 								while ($db->fetch_assoc()) {
 									$lat= $db->row['latitude'];
@@ -442,8 +458,8 @@
 								else $rayon_musee=0 ;
 								if ($rayon_musee!=0){
 									$db = new DB();
-									$req1="select * from velib 
-											where number=$nom";
+									$req1="select * from musee 
+											where id_musee=$nom";
 									$db->query($req1);
 									while ($db->fetch_assoc()) {
 										$lat= $db->row['latitude'];
@@ -463,7 +479,7 @@ as distance from musee order by distance )	as tempo
 											echo '</script>';
 											echo '<li>';
 											echo '<div class="checkbox">';
-											echo '<input id='.$db->row['id_musee'].' type ="checkbox"  onclick="Markers('.$db->row['id_musee'].')"><a href="#">'.$db->row["nom_du_musee"].'<span class="badge pull-right">'.round($db->row["distance"]*1000).' m</span></a></input>' ; 
+											echo '<input id='.$db->row['id_musee'].' type ="checkbox"  onclick="Markers('.$db->row['id_musee'].')"><a href="voir_musee.php?id='.$db->row['id_musee'].'">'.$db->row["nom_du_musee"].'<span class="badge pull-right">'.round($db->row["distance"]*1000).' m</span></a></input>' ; 
 											echo '</div>';
 																				
 											echo '</li>';
