@@ -197,7 +197,6 @@
         <div class="jumbotron">
           <h1>Voir sur la carte</h1>
   		<!-- Début Formulaire -->
-  			<p>
 			<form id="code_postal" role="select" method="GET" >
 				<div class="form-group">
 					<label for="code postal">Sélectionner le code postal </label>
@@ -228,7 +227,6 @@
 						?>
 					</select>
 				</div>
-				
 				<div class = "form-group">
 					<label for="station velib">Station Vélib </label>
   		    		<select id="station velib" name="id" class="form-control" onclick="submit();return false">
@@ -245,16 +243,16 @@
 						
 						$db = new DB();
 						if ($filtre!=""){
-						$req="SELECT name
+						$req="SELECT *
 							FROM velib 
 							WHERE cp = $filtre
 							ORDER BY name";	
 						$db->query($req);
 						while ($db->fetch_assoc()) {
-							if (substr($db->row['name'],0,5)!=$nom){
-								echo '<option VALUE ='.substr($db->row['name'],0,5).'>'.$db->row['name'].'</option>'; }
+							if ($db->row['number']!=$nom){
+								echo '<option VALUE ='.$db->row['number'].'>'.$db->row['name'].'</option>'; }
 							else {
-								echo '<option selected VALUE='.substr($db->row['name'],0,5).'>'.$db->row['name'] .'</option>';}
+								echo '<option selected VALUE='.$db->row['number'].'>'.$db->row['name'] .'</option>';}
 						}
 						}
 						$db->close();
@@ -262,8 +260,57 @@
 					</select>
 				</div>
   			</form>
+			<div class="panel panel-success">
+				 <div class="panel-heading">
+					 <h3 class="panel-title">Addresse de la station sélectionnée</h3>
+			   	</div>
+				<div class="panel-body">
+				<?php
+					require_once("db.class.php");
+				
+					if(isset($_GET['codep'])) $filtre=$_GET['codep'];
+					else $filtre="";						
+					
+					if(isset($_GET['id'])) $nom=$_GET['id'];
+					else $nom="";	
+
+					$db = new DB();
+					if ($nom!=""){
+					$req="SELECT *
+						FROM velib 
+						WHERE number = $nom
+						ORDER BY name";	
+					$db->query($req);
+					while ($db->fetch_assoc()) {
+						echo $db->row['address']; 
+					}
+					}
+					$db->close();
+				?> 				
+				</div>
+				</div>
+				
+			<div class="panel panel-info">
+			  <div class="panel-heading">
+			    <h3 class="panel-title">Les stations les plus proches</h3>
+			  </div>
+			  
+			    <div class="panel-body">
+			<ul class="list-group">
+			  <li class="list-group-item">
+			    <span class="badge">distance en km</span>
+			   	 Première station
+			  </li>
+			  <li class="list-group-item">
+			    <span class="badge">distance en km</span>
+			    Deuxième station
+			  </li>
+			</ul>
+			  </div>
+			</div>
+			
+			
 			</p>
-			<p>Liste des musées</p>
 			
 		</div>
 		
