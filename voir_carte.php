@@ -25,31 +25,7 @@
 			 <script type="text/javascript"
 		         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB4NInl2ygUk82FWxXwjUFQ9LFX9RR0V9o">
 		     </script>	  
-			<!--<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAFnFO3ySluSuha6r1vYekiRQNy_ewe8RNLHRa7cwLE-yWPUZNWBSV43OE1hhpvzIXRf04qzvWdmKBEw&amp;sensor=false" type="text/javascript"></script>
-						
-			 <script type="text/javascript">
- 		 		function Markers(number){
- 		 		map.getInfoWindow().hide() 
- 		    	if (document.getElementById(number).checked==false) { // hide the marker
- 		       	 	for (var i=0;i<gmarkers.length;i++) {
- 		          		if (gmarkers[i].type==number)  {
- 		             		map.removeOverlay(gmarkers[i]);
- 		          		}
- 		       		}
- 		    	} else { // show the marker again
- 		       	 	for (var i=0;i<gmarkers.length;i++) {
- 		          	  if (gmarkers[i].type==number)  {
- 		             	 map.addOverlay(gmarkers[i]);
- 		          			}
- 		       	 		}
- 		    		}
- 		 		}
 			 
-			 </script>
-			 --> 
-			 <script type="text/javascript">
-			 
-			 </script>
 			 <?php
 			 require_once("db.class.php");
 	 		 if(isset($_GET['id'])) $station=substr($_GET['id'],0,5);
@@ -77,25 +53,28 @@
 		     <script type="text/javascript">
 			 var map;
 			 var markers = [];
-			 //var gmarkers = [];
 		   	 var latitude = '<?php echo $lat; ?>' ;
 		   	 var longtitude = '<?php echo $long; ?>' ;
 			 var number = '<?php echo $id_velib; ?>' 
 		   	 var position2=new google.maps.LatLng(latitude, longtitude) ; // position du point indiqué
-			 var image = 'images/museum-256.png';
-			 /*var request;
-			 // var bounds = new GBounds(Number.MAX_VALUE, Number.MAX_VALUE, -Number.MAX_VALUE, -Number.MAX_VALUE); 
-			 var bounds = new GLatLngBounds();
-			 // Create our "tiny" marker icon 
-			 var baseIcon = new GIcon();
-			 baseIcon.image = "http://labs.google.com/ridefinder/images/mm_20_red.png";
-			 baseIcon.shadow = "http://labs.google.com/ridefinder/images/mm_20_shadow.png";
-			 baseIcon.iconSize = new GSize(12, 20);
-			 baseIcon.shadowSize = new GSize(22, 20);
-			 baseIcon.iconAnchor = new GPoint(6, 20);
-			 baseIcon.infoWindowAnchor = new GPoint(5, 1);
-			 baseIcon.imageMap = [4,0,0,4,0,7,3,11,4,19,7,19,8,11,11,7,11,4,7,0]; 
-			 baseIcon.transparent = "mapIcons/mm_20_transparent.png";*/
+			 var image = {
+			     url: 'images/museum-256.png',
+			     // This marker is 20 pixels wide by 32 pixels tall.
+			     size: new google.maps.Size(20, 32),
+			     // The origin for this image is 0,0.
+			     origin: new google.maps.Point(0,0),
+			     // The anchor for this image is the base of the flagpole at 0,32.
+			     anchor: new google.maps.Point(0, 32)
+			   };
+			   // Shapes define the clickable region of the icon.
+			   // The type defines an HTML &lt;area&gt; element 'poly' which
+			   // traces out a polygon as a series of X,Y points. The final
+			   // coordinate closes the poly by connecting to the first
+			   // coordinate.
+			   /*var shape = {
+			       coords: [1, 1, 1, 20, 18, 20, 18 , 1],
+			       type: 'poly'
+			   };*/
 			 function Markers(number){
 			 	if (document.getElementById(number).checked==false) {
 			 		for (var i=0; i<markers.length;i++){
@@ -112,7 +91,6 @@
 			 		}
 					
 				}
-				//markers.setMap(map);
 			 }
 			 
 			 
@@ -125,7 +103,6 @@
 			   var mapOptions = {
 			     zoom: 13,
 			     center: paris,
-			     //mapTypeId: google.maps.MapTypeId.TERRAIN
 			   };
 			   map = new google.maps.Map(document.getElementById('map-canvas'),
 			       mapOptions);
@@ -201,35 +178,7 @@
 					//markers.setMap(map);
 					//}
 			 }
-			 
-			 /*function addMarker(lng, lat, title, iconStr) {
-			    var point = new GLatLng(lat, lng);
-			    bounds.extend(point);
-			    //var icon = coloredRideshareIcon(iconStr);
-			    var marker = new GMarker(point);//, icon);
-			    gmarkers.push(marker);
-			    marker.type = iconStr; 
-			    GEvent.addListener(marker, "click", function () {
-			       // FF 1.5 fix
-			    var text = "<div style=\"white-space:nowrap;\"><div align=\"center\" 					class=\"smalltext\">"+title +"</div></div>";
-			       marker.openInfoWindowHtml(text);
-			    });
-			    map.addOverlay(marker);
-			 }*/
-			 
-			 /*function makeMap() {
-			    map = new GMap(document.getElementById("map"));
-			    map.addControl(new GLargeMapControl());
-			    map.addControl(new GMapTypeControl());
-			 //   map.centerAndZoom(new GPoint(-3.97729, 54.30000), 11);	
-			    map.setCenter(new GLatLng(48.857091635218, 2.3417479951579), 13);
-
-			    request = GXmlHttp.create(); 
-			    request.open("GET", "checkbox_exampleC.xml", true); 
-			    request.onreadystatechange = processXML;
-			    request.send(null);
-			 }	
-			 */
+			
 			 // Sets the map on all markers in the array.
 			 function setAllMap(map) {
 			   for (var i = 0; i < markers.length; i++) {
