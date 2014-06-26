@@ -197,10 +197,11 @@
         <div class="jumbotron">
           <h1>Voir sur la carte</h1>
   		<!-- Début Formulaire -->
-  			<form id="code_postal" class="navbar-form navbar-left" role="select" method="GET" >
-  		  	  Sélectionner le code postal 
+  			<p>
+			<form id="code_postal" role="select" method="GET" >
 				<div class="form-group">
-  		    		<select type="number" name="codep" class="form-control" onchange="submit();return false;">
+					<label for="code postal">Sélectionner le code postal </label>
+  		    		<select id="code postal" type="number" name="codep" class="form-control" onchange="submit();return false;">
 						<option VALUE=0></option>
 						<?php
 						if(isset($_GET['codep'])) $remplie=$_GET['codep'] ;
@@ -226,13 +227,11 @@
 						
 						?>
 					</select>
-				<!-- </div>
-				</form>	
-  			<form id="nom_station" class="navbar-form navbar-left" role="select" method="GET" onchange="submit();return" >
-  		  	  Station
-				<div class="form-group">-->
-					Station
-  		    		<select name="id" class="form-control" onclick="submit();return false">
+				</div>
+				
+				<div class = "form-group">
+					<label for="station velib">Station Vélib </label>
+  		    		<select id="station velib" name="id" class="form-control" onclick="submit();return false">
 						<option VALUE=0>Toutes les stations</option>
 						<?php
 						require_once("db.class.php");
@@ -262,11 +261,10 @@
 						?>
 					</select>
 				</div>
-					
-				
   			</form>
 			</p>
-			<br>
+			<p>Liste des musées</p>
+			
 		</div>
 		
 			<div id="map-canvas"/>
