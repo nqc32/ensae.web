@@ -275,7 +275,7 @@
 					else $nom="";	
 
 					$db = new DB();
-					if ($nom!=""){
+					if ($nom!="" or $nom!=0){
 					$req="SELECT *
 						FROM velib 
 						WHERE number = $nom
@@ -291,22 +291,70 @@
 				</div>
 				
 			<div class="panel panel-info">
+				
 			  <div class="panel-heading">
-			    <h3 class="panel-title">Les stations les plus proches</h3>
+				 <h3 class="panel-title">Les stations les plus proches</h3>
 			  </div>
 			  
-			    <div class="panel-body">
-			<ul class="list-group">
-			  <li class="list-group-item">
-			    <span class="badge">distance en km</span>
-			   	 Première station
-			  </li>
-			  <li class="list-group-item">
-			    <span class="badge">distance en km</span>
-			    Deuxième station
-			  </li>
-			</ul>
+			  <div class="panel-body">
+   			    <form role ="form" method ="GET">
+   					<div class ="form-group">
+   						<label for="rayon distance">Rayon de recherche </label>
+   						<input id ="rayon distance" type ="text" name ="distance" placeholder="Distance en m">
+						<button type="submit" class="btn btn-default">Recherche</button>
+   					</div>
+   				</form>
+				   <ul class="list-group">
+					   <?php
+   						require_once("db.class.php");
+						
+						if(isset($_GET['id'])) $nom=$_GET['id'];
+						else $nom="";	
+						
+						if ($nom!="" or !$nom=0){
+							if (isset($_GET['distance'])) $rayon=$_GET['distance'];
+							else $rayon=0 ;
+							if ($rayon!=0){
+								$db = new DB();
+								$req1="select * from velib 
+										where number=$nom";
+								$db->query($req1);
+								while ($db->fetch_assoc()) {
+									$lat= $db->row['latitude'];
+									$long =  $db->row['longitude'];
+								}
+								$req2="select * from  
+									(select number, name, address,cp, 									 									POW((POW(latitude-$lat,2)+POW(longitude-$long,2)),(1/2))*100 
+								as distance from velib order by distance)	as tempo 
+								where distance  < $rayon/1000 "; 
+								$db->query($req2);
+								while ($db->fetch_assoc()){
+									echo '<form method="POST" onclick="submit();">' ;
+									if (round($db->row["distance"]*1000)>1){
+										echo '<li class="list-group-item">';
+										echo '<span class="badge">'.round($db->row["distance"]*1000).' m</span>';
+										echo '<div class="checkbox">';
+										echo '<input name ="markers[]" type ="checkbox" value ='.$db->row['number'].'>'.substr($db->row["name"],8) ; 
+										echo '</div>';
+										
+										echo '</li>';
+									}
+									echo '</form>';
+								}	
+							}
+						 
+						}
+						
+						#foreach($_POST['markers'] as $i)
+						         #echo $i ."\n";
+						
+						#$db->close();
+						
+					   ?>
+				   </ul>
 			  </div>
+			  
+			  
 			</div>
 			
 			
