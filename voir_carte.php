@@ -329,7 +329,7 @@
 								where distance  < $rayon/1000 "; 
 								$db->query($req2);
 								while ($db->fetch_assoc()){
-									echo '<form method="POST" onclick="submit();">' ;
+									echo '<form method="POST">' ;
 									if (round($db->row["distance"]*1000)>1){
 										echo '<li class="list-group-item">';
 										echo '<span class="badge">'.round($db->row["distance"]*1000).' m</span>';
