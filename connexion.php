@@ -91,9 +91,6 @@ if (login_check($mysqli) == true) {
           </div><!--/.nav-collapse -->
         	</div><!--/.container-fluid -->
       	</div>
-		<div class="jumbotron">
-			<h3>Pages Personnels</h3>
-		</div>
 	  	  <?php
 	  	  if (login_check($mysqli) != true){
 	  		  echo '<div class="panel panel-primary" style="float:left;width:400px;margin:10px">';
@@ -179,13 +176,16 @@ if (login_check($mysqli) == true) {
 		<div class = "bs-docs-section" style="float:left">
 			<div class="panel panel-success">
 				<div class="panel-heading">
-				        <h3 class="panel-title">Stations favorites</h3>
-						<?php
-						$_SESSION['username']
-						?>
+				        <h3 class="panel-title">Stations favorites de <?php echo $_SESSION['username'];?>
+						</h3>
+						
 				</div>
 			<div class="panel-body">
 			    Panel content
+				<?php 
+				$db= new DB();	
+				?>
+				
 			</div>
 			</div>
 			
