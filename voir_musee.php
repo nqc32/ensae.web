@@ -1,3 +1,16 @@
+<?php
+include_once 'includes/register.inc.php';
+include_once 'includes/functions.php';
+include_once 'includes/db.class.php';
+include_once 'includes/pages.php';
+sec_session_start();
+ 
+if (login_check($mysqli) == true) {
+    $logged = 'in';
+} else {
+    $logged = 'out';
+}
+?>
 <html lang="en">
  <head>
     <meta charset="utf-8">
@@ -26,7 +39,7 @@
 		     </script>	  
 			 
 			 <?php
-			 require_once("db.class.php");
+			 #require_once("db.class.php");
 	 		 if(isset($_GET['id'])) $musee=substr($_GET['id'],0,5);
 	 		 else $musee="";
 			 $db = new DB();
@@ -111,7 +124,7 @@
 			   // Adds a marker at the center of the map.
 			   //addMarker(haightAshbury);
 			   <?php
-  			 	require_once("db.class.php");
+  			 	#require_once("db.class.php");
   	 			if(isset($_GET['codep']) and ($_GET['id']==0)) $codepostal=$_GET['codep'];
   	 			else $codepostal="";
   				$db = new DB();
@@ -230,14 +243,14 @@
                 <span class="icon-bar"></span>
               </button>
  			<?php
- 			require_once("settings.php");
+ 			#require_once("settings.php");
  			echo '<a class="navbar-brand" href="velib.php">'.$project_name.'</a>' ;
  			?>
             </div>
             <div class="navbar-collapse collapse">
               <ul class="nav navbar-nav">
   			 <?php
-  			 require_once("settings.php");
+  			 #require_once("settings.php");
                 echo '<li ><a href=velib.php>'.$page1.'</a></li>' ;
                 echo '<li ><a href=voir_carte.php>'.$page2.'</a></li>';
                 echo '<li class="active"><a href="voir_musee.php">'.$page3.'</a></li>';
@@ -254,6 +267,11 @@
               </ul>
           	  <ul class="nav navbar-nav navbar-right" >
 			  <li><a href="connexion.php">Espace Personnel</a></li>
+			  <?php
+			  if (login_check($mysqli) == true){
+				  echo '<li><a href="includes/logout.php">Déconnexion en tant que <strong>'.$_SESSION['username'].'</strong></a></li>';
+			  }	
+			  ?>
 	  		  </ul>
             </div><!--/.nav-collapse -->
           </div><!--/.container-fluid -->
@@ -277,7 +295,7 @@
 						#if ($remplie!=""){
 						#	echo '<option selected="selected">'.$remplie.'</option>';
 						#}
-						require_once("db.class.php");
+						#require_once("db.class.php");
 						$db = new DB();
 						if (($musee_id!=0 or $musee_id!="") and ($remplie==0 or $remplie=="")){
 							$req0="SELECT * from musee
@@ -308,7 +326,7 @@
   		    		<select id="station velib" name="id" class="form-control" onclick="submit();return false">
 						<option VALUE=0>Toutes les stations</option>
 						<?php
-						require_once("db.class.php");
+						#require_once("db.class.php");
 						
 						if(isset($_GET['codep'])) $filtre=$_GET['codep'];
 						else $filtre="";						
@@ -345,7 +363,7 @@
 				<div class="panel-body">
 					<ul class="list-group">
 				<?php
-					require_once("db.class.php");
+					#require_once("db.class.php");
 				
 					if(isset($_GET['codep'])) $filtre=$_GET['codep'];
 					else $filtre="";						
@@ -387,7 +405,7 @@
    				</form>
 				   <ul class="nav nav-pills">
 					   <?php
-   						require_once("db.class.php");
+   						#require_once("db.class.php");
 						
 						if(isset($_GET['id'])) $nom=$_GET['id'];
 						else $nom="";	
@@ -448,7 +466,7 @@
 	   				</form>
 					   <ul class="nav nav-pills">
 						   <?php
-	   						require_once("db.class.php");
+	   						#require_once("db.class.php");
 						
 							if(isset($_GET['id'])) $nom=$_GET['id'];
 							else $nom="";	

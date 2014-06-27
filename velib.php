@@ -1,3 +1,16 @@
+<?php
+include_once 'includes/register.inc.php';
+include_once 'includes/functions.php';
+include_once 'includes/db.class.php';
+include_once 'includes/pages.php';
+sec_session_start();
+ 
+if (login_check($mysqli) == true) {
+    $logged = 'in';
+} else {
+    $logged = 'out';
+}
+?>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -38,14 +51,12 @@
               <span class="icon-bar"></span>
             </button>
 			<?php
-			require_once("settings.php");
 			echo '<a class="navbar-brand" href="velib.php">'.$project_name.'</a>' ;
 			?>
           </div>
           		<div class="navbar-collapse collapse">
               <ul class="nav navbar-nav">
 			 <?php
-			 require_once("settings.php");
               echo '<li class="active"><a href=velib.php>'.$page1.'</a></li>' ;
               echo '<li ><a href=voir_carte.php>'.$page2.'</a></li>';
               echo '<li><a href="voir_musee.php">'.$page3.'</a></li>';
@@ -62,6 +73,11 @@
               </ul>
               <ul class="nav navbar-nav navbar-right" >
   				  <li><a href="connexion.php">Espace Personnel</a></li>
+				  <?php
+				  if (login_check($mysqli) == true){
+					  echo '<li><a href="includes/logout.php">Déconnexion en tant que <strong>'.$_SESSION['username'].'</strong></a></li>';
+				  }	
+				  ?>
 			  </ul>
               <!--<li class="active"><a href="./">Default</a></li>
               <li><a href="../navbar-static-top/">Static top</a></li>
@@ -83,8 +99,6 @@
 			
 			<div class="table-responsive">
 				<?php
-					require_once("db.class.php");
-		
 					if(isset($_POST['code'])) $filtre=$_POST['code'];
 					else $filtre="";
 		

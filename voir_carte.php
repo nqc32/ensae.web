@@ -1,3 +1,16 @@
+<?php
+include_once 'includes/register.inc.php';
+include_once 'includes/functions.php';
+include_once 'includes/db.class.php';
+include_once 'includes/pages.php';
+sec_session_start();
+ 
+if (login_check($mysqli) == true) {
+    $logged = 'in';
+} else {
+    $logged = 'out';
+}
+?>
 <html lang="en">
  <head>
     <meta charset="utf-8">
@@ -26,7 +39,6 @@
 		     </script>	  
 			 
 			 <?php
-			 require_once("db.class.php");
 	 		 if(isset($_GET['id'])) $station=substr($_GET['id'],0,5);
 	 		 else $station="";
 			 $db = new DB();
@@ -102,15 +114,7 @@
 			   map = new google.maps.Map(document.getElementById('map-canvas'),
 			       mapOptions);
 
-			   // This event listener will call addMarker() when the map is clicked.
-			   //google.maps.event.addListener(map, 'click', function(event) {
-			     //addMarker(event.latLng);
-			   //});
-
-			   // Adds a marker at the center of the map.
-			   //addMarker(haightAshbury);
 			   <?php
-  			 	require_once("db.class.php");
   	 			if(isset($_GET['codep']) and ($_GET['id']==0)) $codepostal=$_GET['codep'];
   	 			else $codepostal="";
   				$db = new DB();
@@ -204,11 +208,6 @@
 			   markers = [];
 			 }
 
-		     //<![CDATA[
-			 
-			 
-		 	
-		   //]]> 
 			 
 			 google.maps.event.addDomListener(window, 'load', initialize);
 
@@ -229,14 +228,12 @@
                 <span class="icon-bar"></span>
               </button>
  			<?php
- 			require_once("settings.php");
  			echo '<a class="navbar-brand" href="velib.php">'.$project_name.'</a>' ;
  			?>
             </div>
             	<div class="navbar-collapse collapse">
          	   <ul class="nav navbar-nav">
   			 	 <?php
-  			 require_once("settings.php");
                 echo '<li ><a href=velib.php>'.$page1.'</a></li>' ;
                 echo '<li class="active" ><a href=voir_carte.php>'.$page2.'</a></li>';
                 echo '<li><a href="voir_musee.php">'.$page3.'</a></li>';
@@ -244,6 +241,11 @@
            	  </ul>
               <ul class="nav navbar-nav navbar-right" >
  				  <li><a href="connexion.php">Espace Personnel</a></li>
+				  <?php
+				  if (login_check($mysqli) == true){
+					  echo '<li><a href="includes/logout.php">Déconnexion en tant que <strong>'.$_SESSION['username'].'</strong></a></li>';
+				  }	
+				  ?>
 		  	  </ul>
             </div><!--/.nav-collapse -->
         	</div><!--/.container-fluid -->
@@ -261,11 +263,7 @@
 						<?php
 						if(isset($_GET['codep'])) $remplie=$_GET['codep'] ;
 						else $remplie="";
-						
-						#if ($remplie!=""){
-						#	echo '<option selected="selected">'.$remplie.'</option>';
-						#}
-						require_once("db.class.php");
+					
 						$db = new DB();
 						$req="SELECT distinct cp
 								FROM velib 
@@ -287,9 +285,7 @@
 					<label for="station velib">Station Vélib </label>
   		    		<select id="station velib" name="id" class="form-control" onclick="submit();return false">
 						<option VALUE=0>Toutes les stations</option>
-						<?php
-						require_once("db.class.php");
-						
+						<?php	
 						if(isset($_GET['codep'])) $filtre=$_GET['codep'];
 						else $filtre="";						
 							
@@ -324,7 +320,7 @@
 			   	</div>
 				<div class="panel-body">
 				<?php
-					require_once("db.class.php");
+					#require_once("db.class.php");
 				
 					if(isset($_GET['codep'])) $filtre=$_GET['codep'];
 					else $filtre="";						
@@ -361,8 +357,6 @@
    				</form>
 				   <ul class="nav nav-pills">
 					   <?php
-   						require_once("db.class.php");
-						
 						if(isset($_GET['id'])) $nom=$_GET['id'];
 						else $nom="";	
 						
@@ -421,8 +415,6 @@
 	   				</form>
 					   <ul class="nav nav-pills">
 						   <?php
-	   						require_once("db.class.php");
-						
 							if(isset($_GET['id'])) $nom=$_GET['id'];
 							else $nom="";	
 						
@@ -446,7 +438,6 @@ as distance from musee order by distance )	as tempo
 									while ($db->fetch_assoc()){
 										echo '<form action>' ;
 										if (round($db->row["distance"]*1000)>1){
-											#echo $db->row["nom_du_musee"] ;
 											echo '<script>';
 											echo 'addMarker_latlng('.$db->row["latitude"].','.$db->row["longitude"].','.$db->row["id_musee"].');';
 											echo '</script>';
@@ -469,19 +460,7 @@ as distance from musee order by distance )	as tempo
 	  	    </div>
 	  </div>	
 	   <div id="map-canvas"/>
-			<!--<div id="map" style="width: 640px; height: 500px; padding:-5px;"></div>-->
 	    </div>
   		<!-- Fin Formulaire -->
-<!-- 	
-		
-	require_once("db.class.php");
-	if (isset($_GET['id'])) $_SESSION['id_velib']=$_GET['id'];
-	$db = new DB(localhost,"root","cuong","cuong");
-	$db->query("SELECT * FROM velib 
-						WHERE ( name LIKE '".$_SESSION['id_velib']."%' ). "'");
-	
-	unset($_SESSION['id_ami']);
-	
--->
 </body>
 </html>

@@ -4,8 +4,8 @@ include_once 'functions.php';
  
 sec_session_start(); // Our custom secure way of starting a PHP session.
  
-if (isset($_POST['email'], $_POST['p'])) {
-    $email = $_POST['email'];
+if (isset($_POST['email_reg'], $_POST['p'])) {
+    $email = $_POST['email_reg'];
     $password = $_POST['p']; // The hashed password.
  
     if (login($email, $password, $mysqli) == true) {
@@ -13,7 +13,7 @@ if (isset($_POST['email'], $_POST['p'])) {
         header('Location: ../protected_page.php');
     } else {
         // Login failed 
-        header('Location: ../index.php?error=1');
+        header('Location: ../connexion.php?error=1');
     }
 } else {
     // The correct POST variables were not sent to this page. 
