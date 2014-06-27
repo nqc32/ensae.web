@@ -37,10 +37,10 @@ if (isset($_POST['username'], $_POST['email'], $_POST['p'])) {
  
         if ($stmt->num_rows == 1) {
             // A user with this email address already exists
-            $error_msg .= '<p class="error">A user with this email address already exists.</p>';
+            $error_msg .= '<p class="error">Email déjà utilisé. Veuillez sélectionner un autre.</p>';
                         $stmt->close();
         }
-                $stmt->close();
+          #      $stmt->close();
     } else {
         $error_msg .= '<p class="error">Database error Line 39</p>';
                 $stmt->close();
@@ -57,7 +57,7 @@ if (isset($_POST['username'], $_POST['email'], $_POST['p'])) {
  
                 if ($stmt->num_rows == 1) {
                         // A user with this username already exists
-                        $error_msg .= '<p class="error">A user with this username already exists</p>';
+                        $error_msg .= '<p class="error">Utilisateur déjà existant. Veuillez choisir un autre. </p>';
                         $stmt->close();
                 }
                 $stmt->close();
