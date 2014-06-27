@@ -177,8 +177,8 @@ if (login_check($mysqli) == true) {
   			   		var marker = new google.maps.Marker({
   			     		position: location,
   			     		map: map,
-  				 		title : titre
-						//icon : image
+  				 		title : titre,
+						icon : image
   			   		});
   			   	 	markers.push(marker); 
 					//markers.setMap(map);

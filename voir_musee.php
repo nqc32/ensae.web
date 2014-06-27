@@ -187,8 +187,8 @@ if (login_check($mysqli) == true) {
   			   		var marker = new google.maps.Marker({
   			     		position: location,
   			     		map: map,
-  				 		title : titre
-						//icon : image
+  				 		title : titre,
+						icon : image
   			   		});
   			   	 	markers.push(marker); 
 					//markers.setMap(map);
@@ -343,10 +343,17 @@ if (login_check($mysqli) == true) {
 						
 						$db = new DB();
 						if ($filtre!=""){
-						$req="SELECT *
+						if($filtre!=0){
+							$req="SELECT *
 							FROM musee 
 							WHERE cp = $filtre
 							ORDER BY id_musee";	
+						} else {
+							$req="SELECT *
+							FROM musee 
+							ORDER BY id_musee";
+						}
+								
 						$db->query($req);
 						while ($db->fetch_assoc()) {
 							if ($db->row['id_musee']!=$nom){
