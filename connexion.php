@@ -177,11 +177,16 @@ if (login_check($mysqli) == true) {
 		  </div>
 		</div>
 		<div class = "bs-docs-section" style="float:left">
-			<div class="panel panel-primary">
+			<div class="panel panel-success">
+				<div class="panel-heading">
+				        <h3 class="panel-title">Stations favorites</h3>
+						<?php
+						$_SESSION['username']
+						?>
+				</div>
 			<div class="panel-body">
 			    Panel content
-			  </div>
-			  <div class="panel-footer">Panel footer</div>
+			</div>
 			</div>
 			
 		</div>	
