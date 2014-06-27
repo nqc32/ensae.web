@@ -69,10 +69,69 @@
           </div><!--/.nav-collapse -->
         	</div><!--/.container-fluid -->
       	</div>
-		 <div class="bs-docs-section" style="float:left;max-width:360px;">
-			 
-			 
-			 test
-		 </div>
+		<div class="jumbtron">
+			<div class="panel panel-primary" style="float:left;width:400px;margin:10px">
+		  <div class="panel-heading">
+		    <h3 class="panel-title">Nouvel utilisateur</h3>
+		  </div>
+		  <div class="panel-body" style="padding:20px;">
+			<form role="form">
+			  <div class="form-group">
+				<label for="nom">Nom</label>
+				<input type="text" class="form-control" id="nom" placeholder="Nom">
+			  </div>
+			  <div class="form-group">
+				<label for="prenom">Prénom</label>
+				<input type="text" class="form-control" id="prenom" placeholder="Prénom">
+			  </div>
+			  <div class="form-group">
+			    <label for="newemail">Email address</label>
+			    <input type="email" class="form-control" id="newemail" placeholder="Enter email">
+			  </div>
+			  <div class="form-group">
+			    <label for="newpassword1">Password</label>
+			    <input type="password" class="form-control" id="newpassword1" placeholder="Password">
+			  </div>
+			  <div class="form-group">
+			    <label for="exampleInputFile">File input</label>
+			    <input type="file" id="exampleInputFile">
+			    <p class="help-block">Example block-level help text here.</p>
+			  </div>
+			  <div class="checkbox">
+			    <label>
+			      <input type="checkbox"> Check me out
+			    </label>
+			  </div>
+			  <button type="submit" class="btn btn-default">Submit</button>
+			</form>
+		  </div>
+		</div>
+			<div class="panel panel-primary" style="float:left;width:400px;margin:10px;">
+		  <div class="panel-heading">
+		    <h3 class="panel-title">Déjà enregistré</h3>
+		  </div>
+		  <div class="panel-body" style="padding:20px;">
+			  <form role="form">
+			    <div class="form-group">
+			      <label for="exampleInputEmail1">Email address</label>
+			      <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+			    </div>
+			    <div class="form-group">
+			      <label for="exampleInputPassword1">Password</label>
+			      <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+			    </div>
+			    <div class="checkbox">
+			      <label>
+			        <input type="checkbox"> Check me out
+			      </label>
+			    </div>
+			    <button type="submit" class="btn btn-default">Submit</button>
+			  </form>
+		  </div>
+		</div>
+	  	</div>
+  </div>
+		 
+		
 </body>
 </html>
