@@ -156,6 +156,8 @@ function login_check($mysqli) {
     }
 }
 
+
+
 function esc_url($url) {
  
     if ('' == $url) {

@@ -2,11 +2,11 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Secure Login: Registration Success</title>
+        <title>Secure Login: Enregistrement réussi</title>
         <link rel="stylesheet" href="styles/main.css" />
     </head>
     <body>
-        <h1>Registration successful!</h1>
-        <p>You can now go back to the <a href="connexion.php">login page</a> and log in</p>
+        <h1>Enregistrement réussi !</h1>
+        <p> Retourner sur <a href="connexion.php">l'espace personnel</a> et se connecter</p>
     </body>
 </html>

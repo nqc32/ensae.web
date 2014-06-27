@@ -13,17 +13,11 @@ sec_session_start();
     </head>
     <body>
         <?php if (login_check($mysqli) == true) : ?>
-            <p>Welcome <?php echo htmlentities($_SESSION['username']); ?>!</p>
-            <p>
-                This is an example protected page.  To access this page, users
-                must be logged in.  At some stage, we'll also check the role of
-                the user, so pages will be able to determine the type of user
-                authorised to access the page.
-            </p>
-            <p>Return to <a href="connexion.php">login page</a></p>
+            <p>Bonjour <?php echo htmlentities($_SESSION['username']); ?>!</p>
+            <p>Retourner sur <a href="connexion.php">l'espace personnel</a></p>
         <?php else : ?>
             <p>
-                <span class="error">You are not authorized to access this page.</span> Please <a href="connexion.php">login</a>.
+                <span class="error">Vous n'êtes pas autorisé à aller sur cette page.</span> Aller sur la page de<a href="connexion.php">connexion</a>.
             </p>
         <?php endif; ?>
     </body>

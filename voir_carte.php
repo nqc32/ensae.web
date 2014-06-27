@@ -228,7 +228,7 @@ if (login_check($mysqli) == true) {
                 <span class="icon-bar"></span>
               </button>
  			<?php
- 			echo '<a class="navbar-brand" href="velib.php">'.$project_name.'</a>' ;
+ 			echo '<a class="navbar-brand" href="index.php">'.$project_name.'</a>' ;
  			?>
             </div>
             	<div class="navbar-collapse collapse">
@@ -240,12 +240,18 @@ if (login_check($mysqli) == true) {
   			 ?>
            	  </ul>
               <ul class="nav navbar-nav navbar-right" >
- 				  <li><a href="connexion.php">Espace Personnel</a></li>
-				  <?php
-				  if (login_check($mysqli) == true){
-					  echo '<li><a href="includes/logout.php">Déconnexion en tant que <strong>'.$_SESSION['username'].'</strong></a></li>';
-				  }	
-				  ?>
+			  <?php
+ 				  
+			  
+			  if (login_check($mysqli) == true){
+				  echo '<li class="active"><a href="connexion.php">Bonjour <strong>'.$_SESSION['username'].'</strong></a></li>';
+				  #echo '<li class="active">Bonjour <strong>'.$_SESSION['username'].'</strong></li>';
+				  echo '<li><a href="includes/logout.php">Déconnexion </a></li>';
+				  
+			  }	else { 
+				  echo '<li><a href="connexion.php">Espace Personnel</a></li>';
+			  }
+			  ?>
 		  	  </ul>
             </div><!--/.nav-collapse -->
         	</div><!--/.container-fluid -->

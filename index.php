@@ -57,8 +57,8 @@ if (login_check($mysqli) == true) {
           		<div class="navbar-collapse collapse">
               <ul class="nav navbar-nav">
 			 <?php
-              echo '<li class="active"><a href=velib.php>'.$page1.'</a></li>' ;
-              echo '<li ><a href=voir_carte.php>'.$page2.'</a></li>';
+              echo '<li><a href=velib.php>'.$page1.'</a></li>' ;
+              echo '<li><a href=voir_carte.php>'.$page2.'</a></li>';
               echo '<li><a href="voir_musee.php">'.$page3.'</a></li>';
 			 ?>
                <!--<li class="dropdown">
@@ -72,18 +72,18 @@ if (login_check($mysqli) == true) {
               </li> <!-->
               </ul>
               <ul class="nav navbar-nav navbar-right" >
-				  <?php
-  				  
+			  <?php
+ 				  
+			  
+			  if (login_check($mysqli) == true){
+				  echo '<li class="active"><a href="connexion.php">Bonjour <strong>'.$_SESSION['username'].'</strong></a></li>';
+				  #echo '<li class="active">Bonjour <strong>'.$_SESSION['username'].'</strong></li>';
+				  echo '<li><a href="includes/logout.php">Déconnexion </a></li>';
 				  
-				  if (login_check($mysqli) == true){
-					  echo '<li class="active"><a href="connexion.php">Bonjour <strong>'.$_SESSION['username'].'</strong></a></li>';
-					  #echo '<li class="active">Bonjour <strong>'.$_SESSION['username'].'</strong></li>';
-					  echo '<li><a href="includes/logout.php">Déconnexion </a></li>';
-					  
-				  }	else { 
-					  echo '<li><a href="connexion.php">Espace Personnel</a></li>';
-				  }
-				  ?>
+			  }	else { 
+				  echo '<li><a href="connexion.php">Espace Personnel</a></li>';
+			  }
+			  ?>
 			  </ul>
               <!--<li class="active"><a href="./">Default</a></li>
               <li><a href="../navbar-static-top/">Static top</a></li>
@@ -91,94 +91,22 @@ if (login_check($mysqli) == true) {
           </div><!--/.nav-collapse -->
         	</div><!--/.container-fluid -->
       	</div>
+		<div class="jumbotron">
+		<h2> Bienvenue sur le site du projet Web de géolocalisation ! </h2>
+		<br> <h4> <button type="button" class="btn btn-default btn-lg"> <span class="glyphicon glyphicon-zoom-in"></span> </button> Ce site vous permet de géolocaliser des stations de Vélib' et des musées dans la région parisienne. </h4>
+		<br>
+		<ul class="list-group">
+		<li class="list-group-item list-group-item"> <span class="glyphicon glyphicon-ok-circle"></span> Si vous souhaitez rechercher les stations ou les musées de votre arrondissement préféré, allez dans <a href ="velib.php"> Recherche </a> puis tapez le nom de votre arrondissement. Le site affiche les stations et les musées de l'arrondissement. Vous avez la possibilité de visualiser une station ou un musée sur la Google Maps en appuyant sur <a href ="#"> Voir sur la carte </a>. Si vous souhaitez visualiser toutes les stations de l'arrondissement, tapez sur <a href ="#"> Tout afficher </a>. </li>
+		<li class="list-group-item list-group-item-success"> <span class="glyphicon glyphicon-ok-circle"></span> Pour afficher une station de Vélib' sur la carte, allez dans <a href ="voir_velib.php"> Station Vélib'</a> et tapez le nom de l'arrondissement puis le nom de la station recherchée. Vous avez ensuite la possibilité d'afficher les stations de Vélib' voisines et les musées alentours en modifiant le rayon de recherche.  </li>
+		<li class="list-group-item list-group-item-info"> <span class="glyphicon glyphicon-ok-circle"></span> Pour afficher un musée sur la carte, allez dans <a href ="voir_musee.php"> Musée </a> et tapez le nom de l'arrondissement puis le nom du musée recherché. Vous avez ensuite la possibilité d'afficher les stations de Vélib' voisines et les musées alentours en modifiant le rayon de recherche.  </li>
+		</ul>
 
-     	<div class="jumbotron">
-        	<h3>Recherche par Code Postal</h3>
-			<form class="navbar-form navbar-left" role="search" method="POST">
-		   
-			<div class="form-group">
-		    	<input type="text" name="code" class="form-control" placeholder="Code postal">
-		  	</div>
+		
+		
+		
+		<br> <h4> <button type="button" class="btn btn-default btn-lg"> <span class="glyphicon glyphicon-user"></span> </button> Pour enregistrer vos stations de Vélib' et vos musées favoris, créez un compte dans l'onglet <a href ="connexion.php"> Espace personnel </a>
 	
-		  	<button type="submit" class="btn btn-lg btn-primary">Recherche</button>
-			</form>
-			<br>
-			<br>
-		</div>
-			<div class="table-responsive" style="float:left; width : 450px;margin:10px;">
-				<?php
-					if(isset($_POST['code'])) $filtre=$_POST['code'];
-					else $filtre="";
 		
-					$db = new DB();
-					if ($filtre!="") {
-					echo '<table class="table table-striped .table-condensed ">';
-					echo "<thead>" ;
-					echo " <tr>" ;
-					echo " <th>Station Vélib</th>" ;
-					echo " <th>Adresse</th>" ;
-					echo "<th><a href=\"voir_carte.php?codep=".$filtre."\">Tout Afficher</a></td>";
-					echo " </tr>" ;
-					echo " </thead>";
-					echo " <tbody>" ;
-					$req="SELECT *
-						FROM velib 
-						WHERE cp = $filtre
-						ORDER BY name";
-					$db->query($req);
-			
-					while ($db->fetch_assoc()) {
-						echo "<tr>";
-						echo "<td>".substr($db->row['name'],8)."</td>";
-						echo "<td>".$db->row['address']."</td>";
-						echo "<td><a href=\"voir_carte.php?codep=".$filtre."&id=".$db->row['number']."\">Voir sur la carte</a></td>";
-				#echo "<td>".$db->row['latitude']."</td>";
-				#echo "<td>".$db->row['longitude']."</td>";
-						echo "</tr>";
-					}
-					echo "</tbody>";
-					echo "</table>";
-			    }
-				?>
-        	</div>
-			
-			<div class="table-responsive" style="float:left; width : 450px;margin:10px;">
-				<?php
-					if(isset($_POST['code'])) $filtre=$_POST['code'];
-					else $filtre="";
-		
-					$db = new DB();
-					if ($filtre!="") {
-					echo '<table class="table table-striped .table-condensed ">';
-					echo "<thead>" ;
-					echo " <tr>" ;
-					echo " <th>Musée</th>" ;
-					echo " <th>Adresse</th>" ;
-					echo "<th><a href=\"voir_musee.php?codep=".$filtre."\">Tout Afficher</a></td>";
-					echo " </tr>" ;
-					echo " </thead>";
-					echo " <tbody>" ;
-					$req="SELECT *
-						FROM musee 
-						WHERE cp = $filtre
-						ORDER BY id_musee";
-					$db->query($req);
-			
-					while ($db->fetch_assoc()) {
-						echo "<tr>";
-						echo "<td>".$db->row['nom_du_musee']."</td>";
-						echo "<td>".$db->row['adresse'].", ".$db->row['cp'].", ".$db->row['ville']."</td>";
-						echo "<td><a href=\"voir_musee.php?codep=".$filtre."&id=".$db->row['id_musee']."\">Voir sur la carte</a></td>";
-				#echo "<td>".$db->row['latitude']."</td>";
-				#echo "<td>".$db->row['longitude']."</td>";
-						echo "</tr>";
-					}
-					echo "</tbody>";
-					echo "</table>";
-			    }
-				?>
-        	</div>
-			<br>
 		</div>
 		
     </div> <!-- /container -->

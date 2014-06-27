@@ -56,7 +56,7 @@ if (login_check($mysqli) == true) {
             </button>
 			<?php
 			#require_once("settings.php");
-			echo '<a class="navbar-brand" href="velib.php">'.$project_name.'</a>' ;
+			echo '<a class="navbar-brand" href="index.php">'.$project_name.'</a>' ;
 			?>
           </div>
           		<div class="navbar-collapse collapse">
@@ -78,11 +78,17 @@ if (login_check($mysqli) == true) {
               </li> <!-->
               </ul>
               <ul class="nav navbar-nav navbar-right" >
-  				  <li class="active"><a href="connexion.php">Espace Personnel</a></li>
 				  <?php
+  				  
+				  
 				  if (login_check($mysqli) == true){
-					  echo '<li><a href="includes/logout.php">Déconnexion en tant que <strong>'.$_SESSION['username'].'</strong></a></li>';
-				  }	
+					  echo '<li class="active"><a href="connexion.php">Bonjour <strong>'.$_SESSION['username'].'</strong></a></li>';
+					  #echo '<li class="active">Bonjour <strong>'.$_SESSION['username'].'</strong></li>';
+					  echo '<li><a href="includes/logout.php">Déconnexion </a></li>';
+					  
+				  }	else { 
+					  echo '<li class="active"><a href="connexion.php">Espace Personnel</a></li>';
+				  }
 				  ?>
 			  </ul>
               <!--<li class="active"><a href="./">Default</a></li>
@@ -173,23 +179,62 @@ if (login_check($mysqli) == true) {
 			  </form>
 		  </div>
 		</div>
-		<div class = "bs-docs-section" style="float:left">
-			<div class="panel panel-success">
+		
+  	  <?php
+  	  if (login_check($mysqli) == true){
+  		  echo '<div class="panel panel-success" style="float:left;margin:10px;">';
+  	  }else{
+  	  	  echo '<div class="panel panel-success" style="float:left;margin:10px;display:none;">';
+  	  }
+  	  ?>
 				<div class="panel-heading">
-				        <h3 class="panel-title">Stations favorites de <?php echo $_SESSION['username'];?>
+				        <h3 class="panel-title">Stations Vélib' favorites de <?php echo $_SESSION['username'];?>
+						</h3>		
+				</div>
+			<div class="panel-body">
+				<table class="table table-striped">
+				      <thead>
+				        <tr>
+				          <th>Nom de la station</th>
+				          <th>Adresse</th>
+				        </tr>
+				      </thead>
+				      <tbody>
+				<?php 
+				require_once("includes/getvelib.php")	
+				?>
+			      </tbody>
+			    </table>
+			</div>
+			</div>
+    	  <?php
+    	  if (login_check($mysqli) == true){
+    		  echo '<div class="panel panel-info" style="float:left;margin:10px;">';
+    	  }else{
+    	  	  echo '<div class="panel panel-info" style="float:left;margin:10px;display:none;">';
+    	  }
+    	  ?>
+				<div class="panel-heading">
+				        <h3 class="panel-title">Musées favorites de <?php echo $_SESSION['username'];?>
 						</h3>
 						
 				</div>
 			<div class="panel-body">
-			    Panel content
+				<table class="table table-striped">
+				      <thead>
+				        <tr>
+				          <th>Musée</th>
+				          <th>Adresse</th>
+				        </tr>
+				      </thead>
+				      <tbody>
 				<?php 
-				$db= new DB();	
+				require_once("includes/getmusee.php")	
 				?>
-				
+			      </tbody>
+			    </table>
 			</div>
 			</div>
-			
-		</div>	
 		 
 		
 </body>
