@@ -104,7 +104,7 @@ if (login_check($mysqli) == true) {
 		
 		
 		
-		<br> <h4> <button type="button" class="btn btn-default btn-lg"> <span class="glyphicon glyphicon-user"></span> </button> Pour enregistrer vos stations de Vélib' et vos musées favoris, créez un compte dans l'onglet <a href ="connexion.php"> Espace personnel </a>
+		<br> <h4> <button type="button" class="btn btn-default btn-lg"> <span class="glyphicon glyphicon-user"></span> </button> Pour enregistrer vos stations de Vélib' et vos musées favoris, créez un compte dans l'onglet <a href ="connexion.php"> Espace personnel </a> <small>(L'utilisateur peut utiliser test@ensae.fr/Ensae2014 pour effectuer des tests ) </small>
 	
 		
 		</div>

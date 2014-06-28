@@ -350,22 +350,25 @@ if (login_check($mysqli) == true) {
 				?> 
 				<br>
 				<br>
+			
 				<?php
+				$header = 'Location: ../voir_carte.php?';
 				if (velib_favo_check($mysqli)==true){
-					echo '<form action="includes/process_delete_velib.php?user_id='.$_SESSION['user_id'].'&velib_id='.$_GET['id'].'&codep='.$_GET['codep'].'?header='.'" method="post">' ;
-					echo '<input type="submit" name ="delete_velib" value= "Favoris" class="btn btn-success  btn-sm" onlick="submit();return false;"/>';
-					echo '<form>';
+					echo '<form action="includes/process_delete_velib.php?user_id='.$_SESSION['user_id'].'&velib_id='.$_GET['id'].'&codep='.$_GET['codep'].'&header='.$header.'" method="post">' ;
+					echo '<button type="submit" name ="delete_velib" class="btn btn-success  btn-sm">Favoris</button>';
+					echo '</form>';
 					
 				} else {
 					if (isset($_GET['id']) and isset($_SESSION['user_id'])){
 						if ($_GET['id']!=0){
-							echo '<form action="includes/process_insert_velib.php?user_id='.$_SESSION['user_id'].'&velib_id='.$_GET['id'].'&codep='.$_GET['codep'].'" method="post">' ;
-							echo '<input type="submit" name ="favorite_velib" value= "Ajouter dans les favoris" class="btn btn-warning btn-sm" onlick="submit();return false;"/>';
-							echo '<form>';
+							echo '<form action="includes/process_insert_velib.php?user_id='.$_SESSION['user_id'].'&velib_id='.$_GET['id'].'&codep='.$_GET['codep'].'&header='.$header.'" method="post">' ;
+							echo '<input type="submit" name ="favorite_velib" value= "Ajouter dans les favoris" class="btn btn-warning btn-sm" />';
+							echo '</form>';
 						}
 					}
 				}
-				?>	
+				?>
+			
 				</div>
 			</div>
 			
@@ -379,7 +382,7 @@ if (login_check($mysqli) == true) {
    					<div class ="form-group">
    						<label for="rayon distance">Rayon de recherche </label>
    						<input id ="rayon distance" type ="text" name ="distance" placeholder="Distance en m">
-						<button type="submit" class="btn btn-default">Recherche</button>
+						<button type="submit" name ="submit_rayon" class="btn btn-default" onclick="this.form.submit();return false;">Recherche</button>
    					</div>
    				</form>
 				   <ul class="nav nav-pills">

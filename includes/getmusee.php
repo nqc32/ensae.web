@@ -9,10 +9,16 @@ on (musee.id_user=user.id_user)) as musee_favo on (musee.id_musee=musee_favo.id_
         $stmt->bind_param('s', $user);  // Bind "$email" to parameter.
         $stmt->execute();    // Execute the prepared query.
         $result = $stmt->get_result() ; 
+		$header = 'Location: ../connexion.php?';
 	    while ($myrow = $result->fetch_assoc()) {
 			echo ' <tr>'; 
 			echo ' <td><a href="voir_musee.php?id='.$myrow['id_musee'].'&codep='.$myrow['cp'].'"</a>'.$myrow['nom_du_musee'].'</td>';
 			echo ' <td>'.$myrow['adresse'].', '.$myrow['cp'].', '. $myrow['ville'].'</td>';
+			echo ' <td> ' ;
+			echo '<form action="includes/process_delete_musee.php?user_id='.$_SESSION['user_id'].'&musee_id='.$myrow['id_musee'].'&codep='.$myrow['cp'].'&header='.$header.'" method="post">' ;
+			echo '<input type="submit" name ="delete_musee" value= "Supprimer" class="btn btn-danger  btn-sm" onclick="dialog_supp(this.form);return false;"/>';
+			echo '</form>';
+			echo '</td>';
 			echo '</tr>' ;
 	     }
         }

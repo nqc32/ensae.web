@@ -404,18 +404,19 @@ if (login_check($mysqli) == true) {
 					</ul>
 					
 					<?php
+					$header = 'Location: ../voir_musee.php?';
 					if (musee_favo_check($mysqli)==true){
-						echo '<form action="includes/process_delete_musee.php?user_id='.$_SESSION['user_id'].'&musee_id='.$_GET['id'].'&codep='.$_GET['codep'].'" method="post">' ;
-						echo '<input type="submit" name ="delete_musee" value= "Favoris" class="btn btn-success  btn-sm" onlick="submit();return false;"/>';
-						echo '<form>';
+						echo '<form action="includes/process_delete_musee.php?user_id='.$_SESSION['user_id'].'&musee_id='.$_GET['id'].'&codep='.$_GET['codep'].'&header='.$header.'" method="post">' ;
+						echo '<input type="submit" name ="delete_musee" value= "Favoris" class="btn btn-success  btn-sm" onclick="submit();return false;"/>';
+						echo '</form>';
 					
 						
 					} else {
 						if (isset($_GET['id']) and isset($_SESSION['user_id'])){
 							if ($_GET['id']!=0){
-								echo '<form action="includes/process_insert_musee.php?user_id='.$_SESSION['user_id'].'&musee_id='.$_GET['id'].'&codep='.$_GET['codep'].'" method="post">' ;
-								echo '<input type="submit" name ="favorite_musee" value= "Ajouter dans les favoris" class="btn btn-warning btn-sm" onlick="submit();return false;"/>';
-								echo '<form>';
+								echo '<form action="includes/process_insert_musee.php?user_id='.$_SESSION['user_id'].'&musee_id='.$_GET['id'].'&codep='.$_GET['codep'].'&header='.$header.'" method="post">' ;
+								echo '<input type="submit" name ="favorite_musee" value= "Ajouter dans les favoris" class="btn btn-warning btn-sm" onclick="submit();return false;"/>';
+								echo '</form>';
 							}
 						}
 					}

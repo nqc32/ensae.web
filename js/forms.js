@@ -16,6 +16,15 @@ function formhash(form, password) {
     // Finally submit the form. 
     form.submit();
 }
+function dialog_supp(form){
+	if(confirm("Supprimer l'élément ?")) {
+		form.submit();
+		
+	}
+	else {
+		
+	}
+}
  
 function regformhash(form, uid, email, password, conf) {
      // Check each field has a value
