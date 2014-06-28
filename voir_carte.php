@@ -290,7 +290,7 @@ if (login_check($mysqli) == true) {
 				</div>
 				<div class = "form-group">
 					<label for="station velib">Station Vélib </label>
-  		    		<select id="station velib" name="id" class="form-control" onclick="submit();return false">
+  		    		<select id="station velib" name="id" class="form-control" onchange="submit();return false">
 						<option VALUE=0>Toutes les stations</option>
 						<?php	
 						if(isset($_GET['codep'])) $filtre=$_GET['codep'];

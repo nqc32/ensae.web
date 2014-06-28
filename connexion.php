@@ -114,7 +114,7 @@ if (login_check($mysqli) == true) {
 						<li class="list-group-item list-group-item"> Cliquer <button type="button" class="btn btn-danger  btn-xs">Supprimer</button> pour supprimer vos favoris. </li>
 		</div>
 				<div class="panel panel-warning">
-					 <div class="panel-heading"><span class="glyphicon glyphicon-ok-circle"></span>  Lorsque vous êtes sur la page <a href="voir_velib.php"> Station Vélib</a> ou  <a href="voir_carte.php"> Musée</a> : </div>
+					 <div class="panel-heading"><span class="glyphicon glyphicon-ok-circle"></span>  Lorsque vous êtes sur la page <a href="voir_carte.php"> Station Vélib</a> ou  <a href="voir_carte.php"> Musée</a> : </div>
 						 <ul class ="list-group">
 							 <li class="list-group-item" >
 		 				Votre station favorite/musée favori est indiqué par un tag <button type="submit" name="delete_velib" class="btn btn-success btn-xs">Favoris</button> </li>

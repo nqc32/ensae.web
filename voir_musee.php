@@ -415,7 +415,7 @@ if (login_check($mysqli) == true) {
 						if (isset($_GET['id']) and isset($_SESSION['user_id'])){
 							if ($_GET['id']!=0){
 								echo '<form action="includes/process_insert_musee.php?user_id='.$_SESSION['user_id'].'&musee_id='.$_GET['id'].'&codep='.$_GET['codep'].'&header='.$header.'" method="post">' ;
-								echo '<input type="submit" name ="favorite_musee" value= "Ajouter dans les favoris" class="btn btn-warning btn-sm" onclick="submit();return false;"/>';
+								echo '<input type="submit" name ="favorite_musee" value= "Ajouter dans les favoris" class="btn btn-warning btn-sm" onchange="submit();return false;"/>';
 								echo '</form>';
 							}
 						}
