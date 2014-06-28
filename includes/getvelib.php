@@ -13,6 +13,7 @@ on (velib.id_user=user.id_user)) as velib_favo on (velib.number=velib_favo.id_ve
 			echo ' <tr>'; 
 			echo ' <td><a href="voir_carte.php?id='.$myrow['number'].'&codep='.$myrow['cp'].'"</a>'.$myrow['name'].'</td>';
 			echo ' <td>'.$myrow['address'].'</td>';
+			
 			echo '</tr>' ;
 	     }
         }
