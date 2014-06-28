@@ -76,30 +76,30 @@ Dans le cadre de notre projet nous avons créé un site qui repose sur l'utilisa
 
 L'objet de cette partie consiste à présenter les bases de données que nous avons utilisées dans le cadre du projet. 
 
-\subsection{Base Vélib'}
+\subsection{Base Vélib' : \textbf{velib}}
 
-La première base que nous avons utilisée provient du site data.gouv.fr et répertorie l'ensemble des 1230 stations de Vélib' présentes à Paris et dans sa région. La base de données comprend pour chaque station le numéro, le nom, l'adresse, le code postal, la ville et les coordonnées géographiques (latitude et longitude). 
+La première base que nous avons utilisée provient du site data.gouv.fr et répertorie l'ensemble des 1230 stations de Vélib' présentes à Paris et dans sa région. La base de données comprend pour chaque station le numéro, le nom, l'adresse, le code postal, la ville et les coordonnées géographiques (latitude et longitude). La clef primaire de cette base est le champ "number".
 
-\subsection{Base Monuments}
+\subsection{Base Monuments : \textbf{musee}}
 
-La seconde base de données que nous avons utilisé provient également du site data.gouv.fr et répertorie 140 musées présents en Île-de-France. La base de données fournit pour chaque musée le nom, l'adresse, le code postal, la ville et les coordonnées géographiques.
+La seconde base de données que nous avons utilisé provient également du site data.gouv.fr et répertorie 140 musées présents en Île-de-France. La base de données fournit pour chaque musée le nom, l'adresse, le code postal, la ville et les coordonnées géographiques. La clef primaire est le champ "id\_musee".
 
-\subsection{Base Utilisateurs}
+\subsection{Base d'utilisateurs : \textbf{members}}
 
-Chaque utilisateur du site peut s'enregistrer afin de sauvegarder ses stations de Vélib' favorites et ses musées préférés. Pour ce faire, une base de données Utilisateurs est créée afin de mémoriser le pseudo, le mot de passe, l'adresse email et l'adresse postale des utilisateurs. 
+Chaque utilisateur du site peut s'enregistrer afin de sauvegarder ses stations de Vélib' favorites et ses musées préférés. Pour ce faire, une base de données \textbf{members} est créée afin de mémoriser le pseudo, le mot de passe, l'adresse email, la clef de cryptage. Le mot de passe est crypté via l'algorithme \href{http://pajhome.org.uk/crypt/md5/sha512.html}{hashing algorithm sha512}. La clef primaire est le champ "id\_user" qui s'auto-incrémente lors de l'enregistrement d'un nouvel utilisateur. 
 
-\subsection{Bases favoris 1 et favoris 2}
+\subsection{Bases des favoris : \textbf{velib\_favorite} et \textbf{musee\_favorite}}
 
-Une fois que l'utilisateur est enregistré, il peut s'il le souhaite répertorier ses stations de Vélib' et/ou ses musées favoris. Deux bases de données sont créees afin de stocker les préférences de chaque utilisateurs pour les stations de Vélib' (favoris 1) et les musées (favoris 2). 
+Une fois que l'utilisateur est enregistré, il peut s'il le souhaite répertorier ses stations de Vélib' et/ou ses musées favoris. Deux bases de données sont créees afin de stocker les préférences de chaque utilisateurs pour les stations de Vélib' (\textbf{velib\_favorite}) et les musées (\textbf{musee\_favorite}). Les clefs primaires associées à ces bases sont (id\_user,id\_velib) et (id\_user,id\_musee).
 
 
 \section{Architecture du site}
 Le site est constitué de 4 pages principales: 
 \begin{itemize}
-\item la page de recherche par code postale
-\item la page de recherche de stations Vélib'
-\item la page de recherche de musées 
-\item et la page personnelle où apparaissent les favoris. 
+\item la page de recherche par code postal (\textbf{velib.php}) permet de rechercher les stations de Velib' et les musées franciliens par code postal.
+\item la page de visualisation de stations Vélib'(\textbf{voir\_carte.php}) permet d'afficher sur une carte les stations de Vélib'. La recherche des stations voisines ou des musées alentours est également possible.  Si l'utilisateur est connecté, il peut ajouter une station dans ses favoris ou bien enlever une station de ses favoris. 
+\item la page de musées (\textbf{voir\_musee.php})  permet de faire la même chose, mais pour les musées.  
+\item la page de l'espace personnel (\textbf{connexion.php}) où un utilisateur peut se connecter ou bien s'enregistrer pour une première fois. La liste des favoris d'un utilisateur connecté sur le site est affiché sur cette page. 
 \end{itemize}
 
 Les trois dernières pages sont connectées entre elles : si un utilisateur clique sur une de ses stations favorites sur sa page personnelle, il sera redirigé sur la page de recherche de station vélib' et pourra continuer les requêtes sur celle-ci.\\
@@ -135,36 +135,33 @@ Les trois dernières pages sont connectées entre elles : si un utilisateur cliq
 %Le fonctionnement des pages de recherche repose sur des listes à choix multiples (pour le puis sur de la saisie de texte (pour le rayon) et enfin sur des checkbox afin de saisir les points d'intérêts qu'on aimerai voir sur la carte. 
 %Plusieurs liens apparaissent donc entre les bases de données présentés dans la partie précédente. En effet \\
 % partie reecrite (?)
+Le fonctionnement des pages de recherche repose sur des listes à choix multiples et sur des checkbox. Un utilisateur entre par exemple son code postal, et choisit une station Vélib' dans la liste déroulante. Il peut alors, en choisissant la distance maximale qu'il veut parcourir, avoir accès à tous les musées qui se trouvent dans un disque de centre la station et de rayon la distance maximale. S'il clique sur le nom du musée, il bascule sur la page \textbf{voir\_musee.php}, et peut lire les informations enregistrées sur le musée. 
 
-Le fonctionnement des pages de recherche repose sur des listes à choix multiples et sur des checkbox. Un utilisateur entre par exemple son code postal, et choisit une station Vélib' dans la liste déroulante. Il peut alors, en choisissant la distance maximale qu'il veut parcourir, avoir accès à tous les musées qui se trouvent dans un disque de centre la station et de rayon la distance maximale. S'il clique sur le nom du musée, il bascule sur la page \textbf{voir\_musee.php}, et peut lire les informations enregistrées sur le musée.
-
-
-
-
+\clearpage
 \section{Description du site}
 \subsection{Page d'accueil}
 \begin{figure}[!h]
 \centering
-\includegraphics[width = 13cm,keepaspectratio=TRUE]{index}
+\includegraphics[scale=0.3,keepaspectratio=TRUE]{index}
 \caption{Page d'accueil du site}
 \end{figure}
 
 \subsection{Visualiser les stations de Vélib'}
 \begin{figure}[!h]
 \centering
-\includegraphics[width = 13cm,keepaspectratio=TRUE]{velib}
+\includegraphics[scale=0.3,keepaspectratio=TRUE]{velib}
 \caption{Page de visualisation des stations de Vélib'}
 \end{figure}
 
 \subsection{Espace Personnel}
 \begin{figure}[!h]
 \centering
-\includegraphics[width = 13cm,keepaspectratio=TRUE]{connexion_2}
+\includegraphics[scale=0.3,keepaspectratio=TRUE]{connexion_2}
 \caption{Espace Personnel : Formulaire d'enregistrement et de connexion}
 \end{figure}
 \begin{figure}[!h]
 \centering
-\includegraphics[width = 13cm,keepaspectratio=TRUE]{connexion_1}
+\includegraphics[scale=0.3,keepaspectratio=TRUE]{connexion_1}
 \caption{Espace Personnel : Tableaux des points favorites}
 \end{figure}
 
