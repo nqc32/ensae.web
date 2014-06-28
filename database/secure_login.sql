@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jun 27, 2014 at 03:47 PM
+-- Generation Time: Jun 28, 2014 at 03:01 AM
 -- Server version: 5.6.16
 -- PHP Version: 5.4.24
 
@@ -57,7 +57,7 @@ INSERT INTO `members` (`id`, `username`, `email`, `password`, `salt`) VALUES
 (4, 'a', 'b@ensae.fr', '13a66b9761bb5a33856c8e7df4c32028962cfba9a1c565f6533da0b6d081100f8ff435d756eb373f5ea21c427e085d7df8c29a309849cfee52a77c74bd21bcad', 'e0aec52b19e4d52234eef82238db124c88387850f1fe7b83e1fe86f8c41bbbaf23c0f6d4d597ed993c18b13887ce3d45278b030b568a2a8ea021dfd9af1b3574'),
 (5, '123', 'testtest@ensae.fr', 'b5d94df03d31e8f2ec52f6d88722bdfda26329302eb7b8b71e640b53a78f11ec070bd6a3847336e87db45fecb655b5a36a0d1e8dc77ec1078f43fa4047014d4a', '4b8bcf9733db37144e022764fbe3fd5313e6b1b696a50a6fef0b3f6495f607a0b11596501fe81450fa365646985ee958b8dd70d0ed9b9c857af582a66dde708c'),
 (6, 'florent', 'florent@ensae.fr', 'acde79e50848f4991323258baa7d377f014df8c29db10ce99526accd246cd3bfa923db806e00616644d1ab4a9e4b8130fc7d6351150222628baa3e5cd63a6c6e', 'c0b5e76ef9feac54e4c7c49492180994d2cad895da9c39e409306a9287793c84a4a3aefae5889e98a26962d281e4f0ad0aba61bc11d05c0c399a97b3632b9e98'),
-(7, 'ahmed', 'ahmed@ensae.fr', '0ea720cf1a7e4ce9112486151ca05b2e2386b40e1fe86be5c7b40bb252f1daa2992563217069c872625b6720effa51ead68c7693ad7d701ac2fda2bfb0d50e23', '9efad3ef2126ca70e1931412bab262827b6f25043f7ce6b6693b71f3516ec8e3630d571b1e2ad641db7aa937290a4cdd2a9826ce677cf44413f574fef08e7952'),
+(7, 'usertest', 'test@ensae.fr', '0ea720cf1a7e4ce9112486151ca05b2e2386b40e1fe86be5c7b40bb252f1daa2992563217069c872625b6720effa51ead68c7693ad7d701ac2fda2bfb0d50e23', '9efad3ef2126ca70e1931412bab262827b6f25043f7ce6b6693b71f3516ec8e3630d571b1e2ad641db7aa937290a4cdd2a9826ce677cf44413f574fef08e7952'),
 (8, 'Stephan', 'morley@ensae.fr', '97f32fd5aac261ca4698864a5e11cff6e699d51ca19033eeeb45aa1f6cc64e09e019839f17d02db9e94c7a831278377a84f2a8e6f9b8456a12ce03be822881fb', '5d6e1d0d560ec73344644f7c3d884e0f79cc6500f58d7eaeacca24c2b50751e621597f907d3440c285164da45fffe604e04d4f25fd157660cc6d057b4848bf0f');
 
 -- --------------------------------------------------------
@@ -238,18 +238,21 @@ INSERT INTO `musee` (`departements`, `ferme`, `nom_du_musee`, `adresse`, `cp`, `
 CREATE TABLE IF NOT EXISTS `musee_favorite` (
   `id_musee` int(11) NOT NULL,
   `id_user` int(11) NOT NULL,
-  `id_favo` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`id_favo`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+  PRIMARY KEY (`id_musee`,`id_user`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `musee_favorite`
 --
 
-INSERT INTO `musee_favorite` (`id_musee`, `id_user`, `id_favo`) VALUES
-(32, 7, 1),
-(25, 7, 2),
-(5, 8, 3);
+INSERT INTO `musee_favorite` (`id_musee`, `id_user`) VALUES
+(1, 8),
+(8, 7),
+(8, 8),
+(30, 7),
+(85, 7),
+(113, 8),
+(136, 7);
 
 -- --------------------------------------------------------
 
@@ -1517,19 +1520,33 @@ INSERT INTO `velib` (`number`, `name`, `address`, `dept`, `cp`, `ville`, `latitu
 CREATE TABLE IF NOT EXISTS `velib_favorite` (
   `id_user` int(10) unsigned NOT NULL,
   `id_velib` int(10) unsigned NOT NULL,
-  `id_favo` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`id_favo`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+  PRIMARY KEY (`id_user`,`id_velib`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `velib_favorite`
 --
 
-INSERT INTO `velib_favorite` (`id_user`, `id_velib`, `id_favo`) VALUES
-(7, 9001, 1),
-(7, 3001, 2),
-(8, 15028, 3),
-(8, 22401, 4);
+INSERT INTO `velib_favorite` (`id_user`, `id_velib`) VALUES
+(7, 3008),
+(7, 3009),
+(7, 3013),
+(7, 4013),
+(7, 4014),
+(7, 21108),
+(7, 21111),
+(8, 3004),
+(8, 15025),
+(8, 15026),
+(8, 15027),
+(8, 15028),
+(8, 15030),
+(8, 15031),
+(8, 15033),
+(8, 15043),
+(8, 15049),
+(8, 22042),
+(8, 22401);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
