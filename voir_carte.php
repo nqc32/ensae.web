@@ -3,6 +3,7 @@ include_once 'includes/register.inc.php';
 include_once 'includes/functions.php';
 include_once 'includes/db.class.php';
 include_once 'includes/pages.php';
+require_once ("includes/insertvelib.php");
 sec_session_start();
  
 if (login_check($mysqli) == true) {
@@ -346,9 +347,39 @@ if (login_check($mysqli) == true) {
 					}
 					}
 					$db->close();
-				?> 				
+				?> 
+				<br>
+				<br>
+				<?php
+				if (velib_favo_check($mysqli)==true){
+					$mes = "'Station déjà ajoutée dans les favoris'";
+					echo '<button type ="button" class="btn btn-success btn-sm" onClick="alert('.$mes.');">Favoris </button>';
+				} else {
+					if (isset($_GET['id']) and isset($_SESSION['user_id'])){
+						if ($_GET['id']!=0){
+							$mes ="'includes/process_insert_velib.php'" ;
+							echo '<form method="post">' ;
+							echo '<input type="submit" name ="favorite_velib" value= "Ajouter dans les favoris" class="btn btn-warning btn-sm" onlick="submit();return false;"/>';
+							echo '<form>';
+							if (isset($_POST['favorite_velib'])){
+							if ($insert_stmt = $mysqli->prepare("INSERT INTO velib_favorite (id_user, id_velib) VALUES (?, ?)")) {
+					        	$insert_stmt->bind_param('ss', $_SESSION['user_id'], $_GET['id']);
+								if ($insert_stmt->execute()) {	
+									echo "<script>window.location.reload()</script>;";
+								}else {
+									
+								}
+									
+							}
+							}
+						}
+					}
+				}
+				?>	
 				</div>
 			</div>
+			
+			
 			<div class="panel panel-success" style="float:left;width:300px;">
 			  <div class="panel-heading">
 				 <h4 class="panel-title">Les stations les plus proches</h4>

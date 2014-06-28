@@ -402,6 +402,33 @@ if (login_check($mysqli) == true) {
 					$db->close();
 				?> 		
 					</ul>
+					
+					<?php
+					if (musee_favo_check($mysqli)==true){
+						$mes = "'Musée dans les favoris'";
+						echo '<button type ="button" class="btn btn-success btn-sm" onClick="alert('.$mes.');">Favoris </button>';
+					} else {
+						if (isset($_GET['id']) and isset($_SESSION['user_id'])){
+							if ($_GET['id']!=0){
+								$mes ="'includes/process_insert_velib.php'" ;
+								echo '<form method="post">' ;
+								echo '<input type="submit" name ="favorite_musee" value= "Ajouter dans les favoris" class="btn btn-warning btn-sm" onlick="submit();return false;"/>';
+								echo '<form>';
+								if (isset($_POST['favorite_musee'])){
+								if ($insert_stmt = $mysqli->prepare("INSERT INTO musee_favorite (id_user, id_musee) VALUES (?, ?)")) {
+						        	$insert_stmt->bind_param('ss', $_SESSION['user_id'], $_GET['id']);
+									if ($insert_stmt->execute()) {	
+										echo "<script>window.location.reload()</script>;";
+									}else {
+									
+									}
+									
+								}
+								}
+							}
+						}
+					}
+					?>
 				</div>
 			</div>
 			<div class="panel panel-success" style="float:left;width:300px;">

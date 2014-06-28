@@ -188,4 +188,92 @@ function esc_url($url) {
         return $url;
     }
 }
+
+function velib_favo_check($mysqli) { 
+	#echo "début fonction velib";//return boolean : TRUE if favo exist, False if not
+		    // Check if all session variables are set 
+		    if (isset($_SESSION['user_id'], 
+		                        $_SESSION['username'],$_GET['id']
+		                        #, $_SESSION['login_string']
+								)) {
+									#echo "boucle if ";
+				$user_id = $_SESSION['user_id'];
+				$velib_id=$_GET['id'];
+				#echo $velib_id ; 
+				 
+		        #$username = $_SESSION['username'];
+ 
+		        // Get the user-agent string of the user.
+		        #$user_browser = $_SERVER['HTTP_USER_AGENT'];
+ 
+		        if ($stmt = $mysqli->prepare("SELECT * 
+		                                      FROM velib_favorite 
+		                                      WHERE (id_user = ? AND id_velib=?) LIMIT 1")) {
+		            // Bind "$user_id" to parameter. 
+					$stmt->bind_param('ss', $user_id ,$velib_id);
+		            $stmt->execute();   // Execute the prepared query.
+		            $stmt->store_result();
+					$resulst = $stmt->rows ;
+		            if ($stmt->num_rows == 1) {
+						#echo "existe ";
+		                // If favo exists get variables from result.
+		              return true ; // favo exist 
+		            } else {
+						#echo "existe pas 1" ; 
+		                return false; // favo doesn't exist
+		            }
+		        } else {
+
+		            return false ; // query error 
+		        }
+		    } else {
+
+		        return false ; // variables not set 
+		    }
+}
+
+function musee_favo_check($mysqli) { 
+	#echo "début fonction velib";//return boolean : TRUE if favo exist, False if not
+		    // Check if all session variables are set 
+		    if (isset($_SESSION['user_id'], 
+		                        $_SESSION['username'],$_GET['id']
+		                        #, $_SESSION['login_string']
+								)) {
+									#echo "boucle if ";
+				$user_id = $_SESSION['user_id'];
+				$musee_id=$_GET['id'];
+				#echo $velib_id ; 
+				 
+		        #$username = $_SESSION['username'];
+ 
+		        // Get the user-agent string of the user.
+		        #$user_browser = $_SERVER['HTTP_USER_AGENT'];
+ 
+		        if ($stmt = $mysqli->prepare("SELECT * 
+		                                      FROM musee_favorite 
+		                                      WHERE (id_user = ? AND id_musee=?) LIMIT 1")) {
+		            // Bind "$user_id" to parameter. 
+					$stmt->bind_param('ss', $user_id ,$musee_id);
+		            $stmt->execute();   // Execute the prepared query.
+		            $stmt->store_result();
+					$resulst = $stmt->rows ;
+		            if ($stmt->num_rows == 1) {
+						#echo "existe ";
+		                // If favo exists get variables from result.
+		              return true ; // favo exist 
+		            } else {
+						#echo "existe pas 1" ; 
+		                return false; // favo doesn't exist
+		            }
+		        } else {
+
+		            return false ; // query error 
+		        }
+		    } else {
+
+		        return false ; // variables not set 
+		    }
+}
+
+
 ?>
