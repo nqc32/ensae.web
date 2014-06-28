@@ -97,6 +97,39 @@ if (login_check($mysqli) == true) {
           </div><!--/.nav-collapse -->
         	</div><!--/.container-fluid -->
       	</div>
+		<div class="jumbotron">
+			<h4>Bienvenue sur la page d'espace personnel</h4>
+			<ul class ="list-group">
+				<?php
+					  if (login_check($mysqli) != true){
+						  echo '<li class="list-group-item list-group-item-info"> <span class="glyphicon glyphicon-user"></span> Connectez-vous ou enregistrez-vous grâce aux formulaires ci-dessous pour pouvoir gérer vos favoris  </li></ul>
+			 ';
+						 } else {
+							  echo '<div class="panel panel-info">
+								  <div class = "panel-heading">
+				<span class="glyphicon glyphicon-user"></span> 
+				Vous pouvez désormais accéder à vos favoris depuis votre page personnel :
+			</div>
+					<li class="list-group-item list-group-item">  Cliquer sur une une station Vélib ou un musée de vos favoris vous dirigera directement sur la page de visualisation. </li>
+						<li class="list-group-item list-group-item"> Cliquer <button type="button" class="btn btn-danger  btn-xs">Supprimer</button> pour supprimer vos favoris. </li>
+		</div>
+				<div class="panel panel-warning">
+					 <div class="panel-heading"><span class="glyphicon glyphicon-ok-circle"></span>  Lorsque vous êtes sur la page <a href="voir_velib.php"> Station Vélib</a> ou  <a href="voir_carte.php"> Musée</a> : </div>
+						 <ul class ="list-group">
+							 <li class="list-group-item" >
+		 				Votre station favorite/musée favori est indiqué par un tag <button type="submit" name="delete_velib" class="btn btn-success btn-xs">Favoris</button> </li>
+						<li class="list-group-item" >
+		 				Cliquer sur <button type="submit" name="delete_velib" class="btn btn-success btn-xs">Favoris</button> pour enlever de vos favoris <br></li>
+						<li class="list-group-item" >
+		 				Cliquer sur <input type="submit" name="favorite_velib" value="Ajouter dans les favoris" class="btn btn-warning btn-sm"> pour ajouter dans vos favoris.</li>
+					 
+				</div>';
+						  }
+					
+				?>
+			
+				
+		</div>
 	  	  <?php
 	  	  if (login_check($mysqli) != true){
 	  		  echo '<div class="panel panel-primary" style="float:left;width:400px;margin:10px">';
@@ -215,7 +248,7 @@ if (login_check($mysqli) == true) {
     	  }
     	  ?>
 				<div class="panel-heading">
-				        <h3 class="panel-title">Musées favorites de <?php echo $_SESSION['username'];?>
+				        <h3 class="panel-title">Musées favoris de <?php echo $_SESSION['username'];?>
 						</h3>
 						
 				</div>
